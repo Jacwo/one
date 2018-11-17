@@ -1,4 +1,4 @@
-package com.yyl.one.domain;
+package com.yyl.one.array;
 
 import java.util.Arrays;
 
