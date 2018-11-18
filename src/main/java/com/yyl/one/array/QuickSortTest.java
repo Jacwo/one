@@ -4,7 +4,7 @@ package com.yyl.one.array;
  * @author yyl
  * @date 2018/11/17 下午11:06
  */
-public class ArraySortTest {
+public class QuickSortTest {
     public static void quickSort(int arr[],int left,int right){
        if(left>=right){
            return;
