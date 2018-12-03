@@ -55,7 +55,8 @@ public class TwoSearch {
 
     public static void main(String[] args) {
         int[] aa = {1,3,4,5,9,39,44,56};
-        int k = binarySearch2(aa,4,0,8);
+        System.currentTimeMillis();
+        int k = binarySearch2(aa,39,0,8);
         System.out.println(k);
     }
 }

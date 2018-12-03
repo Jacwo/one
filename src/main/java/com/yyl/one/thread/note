@@ -1,0 +1,68 @@
+Executors.newCacheThreadPool()
+创建一个可缓存的线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则创建新的线程
+Executors cacheThreadPool=Executors.newCacheThreadPool();
+for(int i=0;i<100;i++){
+    cacheThreadPool.execute(new Runnable(){
+        @Override
+        public void run(){
+            system.out.println(index);
+        }
+    });
+    }
+}
+
+线程1执行完毕，线程2会复用线程1的线程
+
+------------------------------------------------------------------------------------------------
+
+Executors.newFixedThreadPool()
+创建一个定长的线程，超过数量将在队列中等待
+Executors cacheThreadPool=Executors.newFixedThreadPool();
+for(int i=0;i<100;i++){
+    final int i=index;
+    cacheThreadPool.execute(new Runnable(){
+        @Override
+        public void run(){
+            system.out.println(i);
+        }
+    });
+    }
+}
+定长线程池的大小最好根据系统资源进行设置。如Runtime.getRuntime().availableProcessors()
+
+------------------------------------------------------------------------------------------------
+
+Executors.newScheduledThreadPool(5);
+创建一个定长线程池，支持定时以及周期性任务执行
+
+ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);
+scheduledThreadPool.schedule(new Runnable() {
+
+@Override
+public void run() {
+System.out.println("delay 3 seconds");
+}
+}, 3, TimeUnit.SECONDS);
+
+------------------------------------------------------------------------------------------------
+
+ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+创建一个单线程化线程池，只会使用唯一的线程执行任务，保证所有任务按顺序执行
+
+ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+for (int i = 0; i < 10; i++) {
+final int index = i;
+singleThreadExecutor.execute(new Runnable() {
+
+@Override
+public void run() {
+try {
+System.out.println(index);
+Thread.sleep(2000);
+} catch (InterruptedException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}
+}
+});
+}
