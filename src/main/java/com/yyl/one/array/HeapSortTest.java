@@ -12,7 +12,7 @@ public class HeapSortTest {
 
     public static void main(String[] args) {
         int arr[]=new int[]{7,3,4,1,5};
-        //调整堆
+        //构建堆
         buildHeap(arr,arr.length);
 
         for (int i = arr.length-1; i >=1; i--) {
