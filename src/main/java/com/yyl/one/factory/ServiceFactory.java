@@ -1,4 +1,4 @@
-package com.yyl.one.Factory;
+package com.yyl.one.factory;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,9 +16,9 @@ public class ServiceFactory {
     private static void init(){
         if(applicationContext==null){
             applicationContext=SpringBeanFactory.getApplicationContext();
-            if(applicationContext==null){
-                applicationContext=new ClassPathXmlApplicationContext("spring/application.xml");
-            }
+          /*  if(applicationContext==null){
+                applicationContext=new ClassPathXmlApplicationContext("SpringConfig.xml");
+            }*/
             initialized=true;
         }
     }
