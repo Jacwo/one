@@ -3,8 +3,10 @@ package com.yyl.one.interceptor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 
 /**
  * ${DESCRIPTION}
@@ -20,5 +22,13 @@ public class WebConfig extends WebMvcConfigurationSupport {
         super.addInterceptors(registry);
     }
 
+   /* @Override
+    protected void configureViewResolvers(ViewResolverRegistry registry) {
+        super.configureViewResolvers(registry);
+    }
 
+    @Override
+    public BeanNameUrlHandlerMapping beanNameHandlerMapping() {
+        return super.beanNameHandlerMapping();
+    }*/
 }

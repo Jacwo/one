@@ -1,10 +1,11 @@
-package com.yyl.one.Factory;
+package com.yyl.one.factory;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import java.util.Map;
  * @author yyl
  * @date 2018年12月20日 15:04
  */
+@Component
 public class SpringBeanFactory implements ApplicationContextAware,InitializingBean,BeanPostProcessor {
     private ApplicationContext applicationContext;
     private static SpringBeanFactory instance =new SpringBeanFactory();

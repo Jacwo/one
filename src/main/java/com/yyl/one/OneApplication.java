@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan
+@ComponentScan(basePackages = {"com.yyl.one"})
 public class OneApplication {
 
 	public static void main(String[] args) {
