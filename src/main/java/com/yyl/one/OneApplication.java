@@ -1,3 +1,4 @@
+/*
 package com.yyl.one;
 
 import org.springframework.boot.SpringApplication;
@@ -15,3 +16,4 @@ public class OneApplication {
 		SpringApplication.run(OneApplication.class, args);
 	}
 }
+*/
