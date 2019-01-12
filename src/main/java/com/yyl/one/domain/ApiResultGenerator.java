@@ -1,11 +1,14 @@
+/*
 package com.yyl.one.domain;
 
 import java.util.List;
 
+*/
 /**
  * @author yyl
  * @date 2018/11/17 上午11:26
- */
+ *//*
+
 public final class ApiResultGenerator {
 
     public static ApiResult result (boolean flag,String msg,Object result,String jumpUrl,int rows,Throwable throwable){
@@ -31,3 +34,4 @@ public final class ApiResultGenerator {
         return result(false,message,"","",0,e);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.yyl.one.controller;
 
 import com.yyl.one.factory.ServiceBeanFactory;
@@ -6,10 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+*/
 /**
  * @author yyl
  * @date 2018/11/15 下午10:45
- */
+ *//*
+
 @RestController
 public class HelloController {
     @Autowired
@@ -21,3 +24,4 @@ public class HelloController {
         return "index";
     }
 }
+*/
