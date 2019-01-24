@@ -8,7 +8,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
 		<module>log4jDemo</module>
-	</modules>
+        <module>cxfDemo</module>
+    </modules>
 	<packaging>pom</packaging>
 
 	<name>one</name>
