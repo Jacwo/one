@@ -58,6 +58,8 @@ public class CountLongWords {
                 .collect(Collectors.toList());
         System.out.println(collect1);
 
+
+
         //List<String> newwords=words.stream().map(String::toUpperCase).collect(Collectors.toList());
         //words.stream().map(String::length);
 
