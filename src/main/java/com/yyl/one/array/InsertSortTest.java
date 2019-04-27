@@ -8,7 +8,7 @@ public class InsertSortTest {
             int val=arr[i]; //2
             int index=i-1;//1
             while (index>=0 && val<arr[index]){
-                arr[index+1]=arr[index];
+                arr[index+1]=arr[index]; // 第一个赋值给第二个
                 index--;
             }
             arr[index+1]=val;
@@ -17,6 +17,7 @@ public class InsertSortTest {
     }
 
     public static void main(String[] args) {
+                 //           var
         int a[]=new int[]{8,3,2,5,7,9,6};
         insertSort(a);
         for (int i = 0; i <a.length ; i++) {
