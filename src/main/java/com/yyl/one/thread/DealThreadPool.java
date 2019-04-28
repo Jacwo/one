@@ -10,7 +10,7 @@ public class DealThreadPool implements Runnable{
         TimeUnit unit=TimeUnit.SECONDS;
         Thread thread=new Thread(new RunnableTest());
         thread.start();
-        ThreadPoolExecutor executor=new ThreadPoolExecutor(corePoolSize,maximumPoolSize,keepAliveTime,unit,new LinkedBlockingQueue<Runnable>());
+        ThreadPoolExecutor executor=new ThreadPoolExecutor(corePoolSize,maximumPoolSize,keepAliveTime,unit,new ArrayBlockingQueue(10));
         executor.execute(new DealThreadPool());
 
     }
