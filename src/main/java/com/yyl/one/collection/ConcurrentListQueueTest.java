@@ -1,6 +1,7 @@
 package com.yyl.one.collection;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
@@ -11,5 +12,5 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 public class ConcurrentListQueueTest extends  AbstractQueuedSynchronizer{
     //ConcurrentLinkedDeque
     //ArrayList
-
+   // ConcurrentHashMap
 }
