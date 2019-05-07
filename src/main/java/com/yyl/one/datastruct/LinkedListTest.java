@@ -124,7 +124,7 @@ public class LinkedListTest {
         LinkedListTest linkedListTest=new LinkedListTest();
         linkedListTest.add(1);
         linkedListTest.add(2);
-
+     //  linkedListTest.reverse2()
         linkedListTest.print();
         linkedListTest.deleteNode(1);
         linkedListTest.print();

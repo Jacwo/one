@@ -1,7 +1,7 @@
 package com.yyl.one.thread;
 
 public class Count {
-    private  static    int counter;
+    private  static     int counter;
 
     public static void main(String[] args) {
         Thread thread=new Thread(new Runnable() {
