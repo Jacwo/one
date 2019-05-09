@@ -1,3 +1,9 @@
+//什么是进程
+系统程序运行的基本单位
+//什么是线程
+比进程更小的执行单位
+共享堆和方法区资源
+
 Executors.newCacheThreadPool()
 创建一个可缓存的线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则创建新的线程
 Executors cacheThreadPool=Executors.newCacheThreadPool();
