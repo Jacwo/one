@@ -6,10 +6,6 @@
 	<groupId>com.yyl</groupId>
 	<artifactId>one</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<modules>
-		<module>log4jDemo</module>
-        <module>cxfDemo</module>
-    </modules>
 	<packaging>pom</packaging>
 
 	<name>one</name>
