@@ -5,7 +5,7 @@ package com.yyl.one.decorator;
  **/
 public class Test {
     public static void main(String[] args) {
-        Component p=new ConcreteComponent();
+        Component p=new ConcreteComponent2();
         p.operation();
         Component c=new ConcreteDecorator(p);
         c.operation();
