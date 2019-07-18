@@ -8,7 +8,8 @@ import java.lang.reflect.Proxy;
 public class Test {
     public static void main(String[] args) {
         ISubject subject=new Subject();
-        ISubject proxyInstance = (ISubject) Proxy.newProxyInstance(subject.getClass().getClassLoader(), subject.getClass().getInterfaces(), new ProxySubject(subject));
-        proxyInstance.action();
+        ProxySubject proxySubject=new ProxySubject();
+        ISubject bind = (ISubject) proxySubject.bind(subject);
+        bind.action();
     }
 }
