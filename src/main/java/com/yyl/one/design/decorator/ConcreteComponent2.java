@@ -1,4 +1,4 @@
-package com.yyl.one.decorator;
+package com.yyl.one.design.decorator;
 
 
 public class ConcreteComponent2 implements Component {
