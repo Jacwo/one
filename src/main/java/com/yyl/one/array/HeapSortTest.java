@@ -11,7 +11,7 @@ package com.yyl.one.array;
 public class HeapSortTest {
 
     public static void main(String[] args) {
-        int arr[]=new int[]{7,3,4,1,5};
+        int arr[]=new int[]{7,3,4,1,5,9,11};
         //构建堆
         buildHeap(arr,arr.length);
 
@@ -44,7 +44,7 @@ public class HeapSortTest {
     private static void adjustHeap(int[] arr, int i,int length) {
         int left=2*i+1;
         int right=left+1;
-        int max=0;
+        int max;
         if(left<length && arr[left]>arr[i]){
             max=left;
         }else{
