@@ -1,4 +1,4 @@
-package com.yyl.one.HashMap;
+package com.yyl.one.hashmap;
 
 
 /**
