@@ -49,7 +49,7 @@ package com.yyl.one.offer;
  *     f(n) = 2*f(n-1)
  */
 public class Solution9 {
-    public int JumpFloorII(int target) {
+    public static  int JumpFloorII(int target) {
 
         if(target<0){
             return -1;
@@ -60,5 +60,9 @@ public class Solution9 {
         }
 
         //Integer.toBinaryString()
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JumpFloorII(7));
     }
 }

@@ -8,7 +8,8 @@ package com.yyl.one.offer;
  * NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
  */
 public class Solution6 {
-    public int minNumberInRotateArray(int [] array) {
+
+    public static  int minNumberInRotateArray(int [] array) {
         if(array.length==0){
             return 0;
         }
@@ -26,5 +27,11 @@ public class Solution6 {
 
         }
         return 0;
+    }
+
+
+    public static void main(String[] args) {
+        int array[]=new int[]{3,4,5,2,3};
+        System.out.println(minNumberInRotateArray(array));
     }
 }
