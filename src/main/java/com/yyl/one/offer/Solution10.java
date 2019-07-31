@@ -8,6 +8,7 @@ public class Solution10 {
     public static void main(String[] args) {
         int count=0;
         int n=10;
+        //转换二进制
         String s=Integer.toBinaryString(n);
         char ss[]=s.toCharArray();
         for(int i=0;i<ss.length;i++){

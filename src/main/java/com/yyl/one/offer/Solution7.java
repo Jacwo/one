@@ -4,6 +4,9 @@ package com.yyl.one.offer;
  * 题目描述
  * 大家都知道斐波那契数列，现在要求输入一个整数n，
  * 请你输出斐波那契数列的第n项（从0开始，第0项为0）。
+ * F(1)=1，
+ * F(2)=1,
+ * F(n)=F(n-1)+F(n-2)（n>=3，n∈N*）
  * n<=39
  */
 public class Solution7 {

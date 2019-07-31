@@ -1,7 +1,5 @@
 package com.yyl.one.queue;
 
-import java.util.Queue;
-
 public class ArrayQueueTest {
     private int arr[];
     private int element;
