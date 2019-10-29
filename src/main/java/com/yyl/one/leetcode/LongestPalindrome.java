@@ -58,7 +58,8 @@ public class LongestPalindrome {
 
 
     public static void main(String[] args) {
-        String s="abacc";
+        String s="abacc2222";
+
        // System.out.printf(s.substring(0,1));
         System.out.println(longestPalindrome(s));
     }
