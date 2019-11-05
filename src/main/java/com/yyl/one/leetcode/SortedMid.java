@@ -1,14 +1,18 @@
 package com.yyl.one.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * author:yangyuanliang Date:2019-11-04 Time:18:31
  **/
 public class SortedMid {
+
     public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int lengthA=nums1.length;
         int lengthB=nums2.length;
         int temp[]=new int[lengthA+lengthB];
-
+        Map map=new HashMap<>();
         int p1=0;
         int p2=0;
         int count=0;
