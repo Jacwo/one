@@ -1,9 +1,6 @@
 package com.yyl.one.leetcode;
 
 import com.yyl.one.offer.ListNode;
-
-import java.util.List;
-
 /**
  * author:yangyuanliang Date:2019-11-05 Time:16:01
  * 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
