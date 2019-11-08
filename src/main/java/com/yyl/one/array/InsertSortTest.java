@@ -1,18 +1,21 @@
 package com.yyl.one.array;
 
+/**
+ * 插入排序
+ * http://www.xingxing2019.cn/articleDetail?article_id=30
+ *
+ */
 public class InsertSortTest {
-    //通过构建有序序列，对未排序的数据，在以排序序列中从后向前扫描
-    //找到相应的位置并插入
-    public static  void insertSort(int []arr){
-        for(int i=1;i<arr.length;i++){
-            int val=arr[i]; //2
-            int index=i-1;//1
-            while (index>=0 && val<arr[index]){
-                arr[index+1]=arr[index]; // 第一个赋值给第二个
-                index--;
-            }
-            arr[index+1]=val;
 
+    public static void insertSort(int arr[] ){
+        for(int i=0;i<arr.length;i++){
+            for(int j=i;j>0;j--){
+                if(arr[j]<arr[j-1]){
+                    int temp=arr[j];
+                    arr[j]=arr[j-1];
+                    arr[j-1]=temp;
+                }
+            }
         }
     }
 
