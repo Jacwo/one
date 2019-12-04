@@ -2,7 +2,6 @@ package com.yyl.one.thread;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,8 +17,8 @@ public class ThreadLocalTest {
         }
     };
     public static void main(String[] args) throws ClassNotFoundException {
-         Class.forName("java.lang.String");
-        LinkedList
+
+
         for (int i=0;i<100;i++){
             new Thread(() -> {
                 String format = sdf.format(new Date());

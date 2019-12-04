@@ -18,7 +18,9 @@ public class CollectTest2{
         arrayList2.add(-3);
         arrayList2.add(-5);
         arrayList2.add(7);
-        System.out.println("原始数组:");
+        ArrayList<Integer> integers = new ArrayList<>(arrayList2);
+        integers.stream().forEach(integer -> System.out.println(integer));
+        /*System.out.println("原始数组:");
         System.out.println(arrayList);
 
         System.out.println("Collections.max(arrayList):");
@@ -40,6 +42,6 @@ public class CollectTest2{
         System.out.println("Collections.binarySearch(arrayList, 7):");
         // 对List进行二分查找，返回索引，List必须是有序的
         Collections.sort(arrayList);
-        System.out.println(Collections.binarySearch(arrayList, 7));
+        System.out.println(Collections.binarySearch(arrayList, 7));*/
     }
 }
