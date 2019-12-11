@@ -13,10 +13,12 @@ public class BoundedHashSet<T> {
     private Semaphore semaphore;
     public BoundedHashSet(int bound){
         this.set= Collections.synchronizedSet(new HashSet<>());
+        //构造方法定义许可资源的个数
         this.semaphore=new Semaphore(bound);
     }
 
     public boolean add(T t) throws InterruptedException {
+        //有没有许可，没有的话将阻塞
         semaphore.acquire();
         boolean wasAdded=false;
         try {
@@ -35,5 +37,29 @@ public class BoundedHashSet<T> {
             semaphore.release();
         }
         return wasRemoved;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        BoundedHashSet boundedHashSet=new BoundedHashSet(3);
+        for (int i = 0; i <4 ; i++) {
+            int finalI = i;
+            new Thread(() -> {
+                try {
+                    boundedHashSet.add("mmm"+ finalI);
+                    System.out.println("添加");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }).start();
+        }
+
+        /*new Thread(() -> {
+            boundedHashSet.remove("222");
+            System.out.println("移除");
+
+        }).start();*/
+
+
     }
 }
