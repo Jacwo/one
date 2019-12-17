@@ -10,7 +10,7 @@ package com.yyl.one.classloder;
 public class ClassLoaderTest {
 
     public static void main(String[] args) {
-        son sons=new son();
+        Son2 sons=new Son2();
     }
 }
 
@@ -42,7 +42,7 @@ class parent {
 
 }
 
-class son extends parent{
+class Son2 extends parent{
     private static  int sa=1;
     private static  int sb;
     private   int sc=initc2();
@@ -56,7 +56,7 @@ class son extends parent{
         this.sc=12;
         return sc;
     }
-    public son(){
+    public Son2(){
         System.out.println("6.子类构造方式开始执行---> sa:"+sa+",sb:"+sb);
         System.out.println("6.子类构造方式开始执行---> sc:"+sc);
     }

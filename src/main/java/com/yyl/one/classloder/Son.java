@@ -1,5 +1,7 @@
+/*
 package com.yyl.one.classloder;
 
+*/
 /**
  * author:yangyuanliang Date:2019-11-26 Time:11:27
  *
@@ -10,7 +12,8 @@ package com.yyl.one.classloder;
  * son age10
  *
  *
- **/
+ **//*
+
 public class Son extends Parent {
     private int age =1;
     public Son(int age){
@@ -27,3 +30,4 @@ public class Son extends Parent {
         new Son(10);
     }
 }
+*/

@@ -1,12 +1,15 @@
+/*
 package com.yyl.one.classloder;
 
 import javax.swing.*;
 import java.awt.*;
 
+*/
 /**
  * @author yyl
  * @date 2018/11/25 下午4:53
- */
+ *//*
+
 public class ClassLoaderTest2 {
     public static void main(String[] args) {
         Parent2 son=new Son2();
@@ -99,4 +102,4 @@ class Son2 extends Parent2{
 
         i=11;
     }
-}
+}*/
