@@ -166,11 +166,174 @@ private static class Node<E> {
            }
        }
 ```
-每个链表存储了Head和Tail指针,实现方式
+每个链表存储了Head和Tail指针,实现方式决定了所有跟下标操作相关的都是线性时间，而在首段或者末尾删除元素只需要常数
+时间，没有使用synchroinized，如果需要支持同步，可以使用Collections.syachronizedList()方法包装
 ```
 transient Node<E> first;
   transient Node<E> last;
 ```
+add方法
+```$xslt
+public void addFirst(E e) {
+        linkFirst(e);
+    }
+
+private void linkFirst(E e) {
+        final Node<E> f = first;
+        //新增节点
+        final Node<E> newNode = new Node<>(null, e, f);
+        //头节点指向新节点
+        first = newNode;
+        //如果原先链表为空
+        if (f == null)
+               //最后一个节点也指向新节点
+            last = newNode;
+        else
+            //把原先的头节点挂到新节点后面
+            f.prev = newNode;
+        size++;
+        modCount++;
+    }
+
+```
+指定下标新增
+```
+public void add(int index, E element) {
+            //检验是否越界  
+           checkPositionIndex(index);
+            //如果是最后一个直接链接到最后
+           if (index == size)
+               linkLast(element);
+           else
+           //
+               linkBefore(element, node(index));
+       }
+       
+Node<E> node(int index) {
+        // assert isElementIndex(index);
+        //通过下标去计算在链表的前半部分还是后半部分
+        if (index < (size >> 1)) {
+            //遍历链表查询该下标的节点，
+            Node<E> x = first;
+            for (int i = 0; i < index; i++)
+                x = x.next;
+            return x;
+        } else {
+            Node<E> x = last;
+            for (int i = size - 1; i > index; i--)
+                x = x.prev;
+            return x;
+        }
+    }       
+       
+void linkBefore(E e, Node<E> succ) {
+        // assert succ != null;
+        //保存插入节点的前驱节点信息
+        final Node<E> pred = succ.prev;
+        //新建节点
+        final Node<E> newNode = new Node<>(pred, e, succ);
+        //下标节点挂载到新建节点后面
+        succ.prev = newNode;
+        if (pred == null)
+            first = newNode;
+        else
+            //前驱节点指向新增节点
+            pred.next = newNode;
+        size++;
+        modCount++;
+    }
+```
+remove（）
+```
+public boolean remove(Object o) {
+        //移除null元素
+        if (o == null) {
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (x.item == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+        //遍历链表移除非空元素
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item)) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+E unlink(Node<E> x) {
+        // assert x != null;
+        // 待移除元素值
+        final E element = x.item;
+        //记录后继节点
+        final Node<E> next = x.next;
+        //记录前驱节点
+        final Node<E> prev = x.prev;
+        //如果前驱节点是null,移除的位置刚好是第一个
+        if (prev == null) {
+            //下一节点作为头节点
+            first = next;
+        } else {
+            //前驱节点不是bull 前驱节点指向下一节点
+            prev.next = next;
+            //被删除的节点移除
+            x.prev = null;
+        }
+        //如果后继节点是空，移除的位置刚好是最后一个
+        if (next == null) {
+        //前驱节点作为最后节点
+            last = prev;
+        } else {
+        //后继节点指向前一个节点
+            next.prev = prev;
+        //被删除的节点移除
+            x.next = null;
+        }
+
+        x.item = null;
+        size--;
+        modCount++;
+        return element;
+    }
+```
+get()
+```
+//分析过了，了解
+public E get(int index) {
+        checkElementIndex(index);
+        return node(index).item;
+}
+    
+Node<E> node(int index) {
+        // assert isElementIndex(index);
+
+        if (index < (size >> 1)) {
+            Node<E> x = first;
+            for (int i = 0; i < index; i++)
+                x = x.next;
+            return x;
+        } else {
+            Node<E> x = last;
+            for (int i = size - 1; i > index; i--)
+                x = x.prev;
+            return x;
+        }
+    }
+```
+### 总结
+- LinkedList插入、删除都是移动指针效率较高
+- 查找需要进行遍历效率低
+- ArrayList和LinkedList
+    1. ArrayList基于动态数组实现，LinkedList基于双向链表实现
+    2. ArrayList支持随机访问，LinkedList不支持
+    3. LinkedList在任意位置添加删除元素快
+
 ```
 public class DoubleLinkedList{
     private Node first;
