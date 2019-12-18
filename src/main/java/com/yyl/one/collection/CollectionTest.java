@@ -1,11 +1,13 @@
 package com.yyl.one.collection;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CollectionTest {
     public static void main(String[] args) {
+        Vector vector=new Vector();
+        CopyOnWriteArrayList copyOnWriteArrayList=new CopyOnWriteArrayList();
+        LinkedList linkedList=new LinkedList();
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         arrayList.add(-1);
         arrayList.add(3);
@@ -53,4 +55,6 @@ public class CollectionTest {
         System.out.println("定制排序后：");
         System.out.println(arrayList);
     }
+
+
 }
