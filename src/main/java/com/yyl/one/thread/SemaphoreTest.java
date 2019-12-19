@@ -7,6 +7,12 @@ import java.util.concurrent.Semaphore;
 
 /**
  * author:yangyuanliang Date:2019-12-05 Time:13:55
+ * semaphore 与countdown相似，不同的地方在于semaphore的值
+ * 被获取到后是可以释放的，并不像countdownlatch那样一直减到底
+ * 它也被更多地用来限制流量，类似阀门功能，如果限定某些资源最多
+ * 有N个线程可以访问，那么超过N个主不允许再有线程来访问，同时
+ * 当现有线程结束后就会释放。然后允许新的线程进来
+ *
  **/
 public class SemaphoreTest<T> {
     private final Set<T> set;
@@ -40,12 +46,10 @@ public class SemaphoreTest<T> {
     public static void main(String[] args) throws InterruptedException {
         SemaphoreTest semaphoreTest=new SemaphoreTest(3);
         semaphoreTest.add("2222");
-        semaphoreTest.add("2222");
-
-        semaphoreTest.add("2222");
-
-        semaphoreTest.add("2222");
-        semaphoreTest.add("2222");
+        semaphoreTest.add("22221");
+        semaphoreTest.add("22223");
+        semaphoreTest.add("22224");
+        semaphoreTest.add("22225");
         semaphoreTest.add("2222");
     }
 }

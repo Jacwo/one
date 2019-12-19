@@ -334,6 +334,242 @@ Node<E> node(int index) {
     2. ArrayList支持随机访问，LinkedList不支持
     3. LinkedList在任意位置添加删除元素快
 
+### HashMap
+1. 底层如何存储数据的
+2. HashMap几个主要的方法
+3. HashMap是如何确定元素存储位置的一级如何处理哈希冲突的
+4. HashMap的扩容机制是怎样的
+5. Jdk1.8在扩容和解决Hash冲突上对H啊是M阿婆源码做了那些改动，有什么好处？
+
+- JDK1.7之前采用拉链法来存储数据，即数组和链表结合的方式
+拉链法又叫做链地址法，简单来说就是数组加链表的组合。在每个数组元素上存储的都是一个链表
+不能的key可能经过Hash运算得到相同的地址，但是一个数组单位上只能存放一个元素
+采用链地址放以后，如果遇到相同的hash值的key的时候，我们可以=将它放在数组元素的链表上
+待我们去取元素的时候通过Hash运算的结果找到这个链表，在在链表中找到与key相同的节点，就能
+找到key相应的值
+
+- JDK1.8之后HashMap底层在解决哈希冲突的时候，就不蛋蛋使用数组加上链表的组合了，因为当处理hash值
+冲突较多的情况下，链表的长度会越来越长，此时通过但链表寻找对应key对应的value时候时间复杂读达到O(n)
+因此在1.8之后，在链表新增节点导致链表长度超过TREEIFY_THRESHOLD=8的时候，就会在添加元素的同时将原来
+的链表转化为红黑树。
+
+```$xslt
+//Node是HashMap的一个内部类，实现了Map.Entry接口，本质是一个映射
+
+static class Node<K,V> implements Map.Entry<K,V> {
+        //用来定位数组索引位置
+        final int hash; 
+        final K key;
+        V value;
+        //链表的下一个node
+        Node<K,V> next; 
+
+        Node(int hash, K key, V value, Node<K,V> next) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+
+        public final K getKey()        { return key; }
+        public final V getValue()      { return value; }
+        public final String toString() { return key + "=" + value; }
+
+        public final int hashCode() {
+            return Objects.hashCode(key) ^ Objects.hashCode(value);
+        }
+
+        public final V setValue(V newValue) {
+            V oldValue = value;
+            value = newValue;
+            return oldValue;
+        }
+
+        public final boolean equals(Object o) {
+            if (o == this)
+                return true;
+            if (o instanceof Map.Entry) {
+                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
+                if (Objects.equals(key, e.getKey()) &&
+                    Objects.equals(value, e.getValue()))
+                    return true;
+            }
+            return false;
+        }
+    }
+```
+HashMap是使用哈希表来存储的，哈希表为解决冲突可以采用开放地址法和链地址法等来解决问题
+Java中的HashMap采用了链地址法。简单雷说就是数组加链表的组合，在每个数组元素上都加上一个链表
+机构，当数据被hash后，得到数组下标，把数据放在对应下标元素的链表上
+map.put("dog","二狗");
+程序执行当前代码，系统将使用key的hashcode方法得到其hashCode值，然后在通过Hash算法的元素安确定建值对的存储
+位置，又是两个key会定位到相同的位置，表示发生了Hash碰撞，Hash算法计算结果越分散均匀，Hash碰撞的概率就越小
+map的存取效率就越高。
+
+如果哈希桶数组很大，即使较差的hash算法也会比较分散。如果哈希桶数组很小，好的hash算法也会出现较多的碰撞
+- 重要参数
+1. buckets 在HashMap的注释里使用hash桶来形象的表示数组中每个地址的位置
+2. capacity table的容量大小默认16 需要保证capacity必须保证是2的n次方
+3. size     table的实际用量
+4. threshold size的临界值 size必须小于threshold如果大于等于则进行扩容
+5. loadFactor  装载因子，table能够使用的比例threshold=loadFactor*capacity
+6. TREEIFY_THRESHOLD 大于8转化红黑树
+7. UNTREEIFY_THRESHOLD 小于6转化链表
+- 确定Hash桶数组的位置
+int hash=hash(key);
+int i=indexFor(hash,table.length);
+1. 计算hash值
+```$xslt
+ static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+
+```
+2. put方法1.8
+```$xslt
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        Node<K,V>[] tab; Node<K,V> p; int n, i;
+        //1.tab为空则创建，初始化容量、加载因子threshold
+        // Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+         //根据hash值判断在数组中的位置,如果当前没有值直接new节点存储
+        if ((p = tab[i = (n - 1) & hash]) == null)
+            tab[i] = newNode(hash, key, value, null);
+        else {
+            //如果寻找的table数组有值，则判断key有没有存在
+            Node<K,V> e; K k;
+            //通过key查找到value直接进行替换
+            if (p.hash == hash &&
+                ((k = p.key) == key || (key != null && key.equals(k))))
+                e = p;
+            //没有找到。就判断是不是红黑树
+            else if (p instanceof TreeNode)
+            //新建红黑树节点
+                e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+            else {
+            //如果是链表
+                for (int binCount = 0; ; ++binCount) {
+                 //链表中没有找到相同key
+                    if ((e = p.next) == null) {
+                    //把新的节点挂载到最后面
+                        p.next = newNode(hash, key, value, null);
+                        //判断是不是到了转化红黑树的时机
+                        if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                           //链表转化红黑树
+                            treeifyBin(tab, hash);
+                        break;
+                    }
+                    //找到相同的key 存在
+                    if (e.hash == hash &&
+                        ((k = e.key) == key || (key != null && key.equals(k))))
+                        break;
+                    p = e;
+                }
+            }
+            //找到相同的key 存在直接覆盖操作
+            if (e != null) { // existing mapping for key
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value;
+                afterNodeAccess(e);
+                return oldValue;
+            }
+        }
+        ++modCount;
+        if (++size > threshold)
+        //扩容
+            resize();
+        afterNodeInsertion(evict);
+        return null;
+    }
+```
+扩容操作
+```$xslt
+final Node<K,V>[] resize() {
+        Node<K,V>[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap > 0) {
+            if (oldCap >= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr << 1; // double threshold
+        }
+        else if (oldThr > 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        else {               // zero initial threshold signifies using defaults
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (newThr == 0) {
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        @SuppressWarnings({"rawtypes","unchecked"})
+        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+        table = newTab;
+        // 原先有元素扩容
+        if (oldTab != null) {
+            for (int j = 0; j < oldCap; ++j) {
+                Node<K,V> e;
+                if ((e = oldTab[j]) != null) {
+                    oldTab[j] = null;
+                    if (e.next == null)
+                        //重新计算在new数组的位置
+                        newTab[e.hash & (newCap - 1)] = e;
+                    else if (e instanceof TreeNode)
+                            //如果是二叉树拆
+                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                    else { // preserve order
+                      //
+                        Node<K,V> loHead = null, loTail = null;
+                        Node<K,V> hiHead = null, hiTail = null;
+                        Node<K,V> next;
+                        do {
+                            next = e.next;
+                            //原先索引
+                            if ((e.hash & oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            //原索引+oldCap
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        //原索引放到bucket里
+                        if (loTail != null) {
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        //原索引+oldCap放到bucket里
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+```
 ```
 public class DoubleLinkedList{
     private Node first;

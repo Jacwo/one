@@ -1,9 +1,8 @@
 package com.yyl.one.collection;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
 
 public class CollectionTest {
     public static void main(String[] args) {
@@ -53,6 +52,15 @@ public class CollectionTest {
         });
         System.out.println("定制排序后：");
         System.out.println(arrayList);
+
+        Map map=new HashMap(1);
+        map.put("1","1");
+
+        map.put("2","2");
+        map.put("3","3");
+
+        map.put("4","5");
+
     }
 
 }
