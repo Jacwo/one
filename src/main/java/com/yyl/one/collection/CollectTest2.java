@@ -1,7 +1,7 @@
 package com.yyl.one.collection;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CollectTest2{
     public static void main(String[] args) {
@@ -20,6 +20,14 @@ public class CollectTest2{
         arrayList2.add(7);
         ArrayList<Integer> integers = new ArrayList<>(arrayList2);
         integers.stream().forEach(integer -> System.out.println(integer));
+        ConcurrentHashMap concurrentHashMap=new ConcurrentHashMap();
+       // concurrentHashMap.put(null,null);
+
+        Map map=new HashMap();
+        map.put(null,null);
+        System.out.println(32-(32>>>2));
+
+
         /*System.out.println("原始数组:");
         System.out.println(arrayList);
 

@@ -570,6 +570,203 @@ final Node<K,V>[] resize() {
         return newTab;
     }
 ```
+线程安全性
+在多线程使用场景中，应该尽量避免使用线程不安全的hashmap，而是使用线程安全的
+ConcurrentHashMap
+
+- HashMap和Hashtable
+    1. hashtable使用synchronized来进行同步
+    2. HashMap可以插入建为null的entry
+    3. HashMap的迭代器是fail-fast迭代器
+    4. Hashmap不能保证随着时间的推移map中的元素次序是不变的
+- 小结
+    1. 扩容是一个特别消耗性能的操作，所有当使用HashMap的时候，覆默认值，避免频繁扩容
+    2. 负载因子是可以修改的，但也可以大于1
+    3. HashMap是线程不安全的，不要在并发环境中操作HashMap 建议使用ConcurrentHashMap
+    4. JDK1.8引入红黑树很大程度优化了HashMap性能
+    
+### ConcurrentHashMap
+哈希表是非常高兴，复杂度为O(1)的数据结构，在JAVA开发中，我们最常见到最频繁使用的就是HashMap和
+HashTable，但是在线程竞争激烈的并发场景中使用都不够合理
+```$xslt
+    //初始化数组
+    //如果sizeCtl小于0，说明别的数组正在进行初始化，让出执行权
+    //如果大于0 则出事后一个大小为sizeCtl的数组
+    //否则出事后一个默认大小的数组
+    //然后设置sizeCtl的值为数组长度的3/4
+    private final Node<K,V>[] initTable() {
+            Node<K,V>[] tab; int sc;
+            while ((tab = table) == null || tab.length == 0) {
+                if ((sc = sizeCtl) < 0)
+                    Thread.yield(); // lost initialization race; just spin
+                else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
+                    try {
+                        if ((tab = table) == null || tab.length == 0) {
+                            int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
+                            @SuppressWarnings("unchecked")
+                            Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n];
+                            table = tab = nt;
+                            sc = n - (n >>> 2);
+                        }
+                    } finally {
+                        sizeCtl = sc;
+                    }
+                    break;
+                }
+            }
+            return tab;
+        }
+
+    //使用unsafe方法，通过直接操作内存的方式来保证并发处理的安全性，使用的是硬件安全机制
+ static final <K,V> Node<K,V> tabAt(Node<K,V>[] tab, int i) {
+        return (Node<K,V>)U.getObjectVolatile(tab, ((long)i << ASHIFT) + ABASE);
+    }
+    //cas原子操作，在指定位置设定值
+    static final <K,V> boolean casTabAt(Node<K,V>[] tab, int i,
+                                        Node<K,V> c, Node<K,V> v) {
+        return U.compareAndSwapObject(tab, ((long)i << ASHIFT) + ABASE, c, v);
+    }
+    //原子操作，在指定位置设定值   
+    static final <K,V> void setTabAt(Node<K,V>[] tab, int i, Node<K,V> v) {
+        U.putObjectVolatile(tab, ((long)i << ASHIFT) + ABASE, v);
+    }
+
+ final V putVal(K key, V value, boolean onlyIfAbsent) {
+        //key value不能为空，否则抛出异常
+        if (key == null || value == null) throw new NullPointerException();
+        //取得key的hash值
+        int hash = spread(key.hashCode());
+        //用来计算这个节点总共有多少元素，用来控制扩容或者转移树
+        int binCount = 0;
+        for (Node<K,V>[] tab = table;;) {
+            Node<K,V> f; int n, i, fh;
+            if (tab == null || (n = tab.length) == 0)
+            //第一次put的时候table没有初始化，则初始化table
+                tab = initTable();
+                //通过hash计算出一个表中的位置，因为n是数组的长度哦所以(n-1)&hash不会出现数组越界
+            else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
+            //如果这个位置没有元素的化，则通过cas的方式尝试添加，这个时候没有加锁
+                if (casTabAt(tab, i, null,
+                             new Node<K,V>(hash, key, value, null))) //创建一个Node添加到数组中，null表示下一节点为空
+                    break;                   // no lock when adding to empty bin
+            }
+            //如果检测到某个节点的hash值是MOVED，则表示正在进行数组扩张的数据复制阶段
+            //则当前线程也会参与去复制，通过允许多线程编程复制的功能，一次来减少数组复制带来的损失
+            else if ((fh = f.hash) == MOVED)
+                tab = helpTransfer(tab, f);
+            else {
+            /**
+            * 如果这个位置有元素的话，就采用synchronized加锁
+            * 如果链表的话，就对这个链表所有元素进行遍历
+            * 如果找到key和key的hash值都一样的节点则把他的值替换
+            * 如果没有找到则添加在链表的后面
+            * 否则，是树的话则调用putTreeVal方法添加到树中
+            * 在添加完之后会对该节点上关联的数目进行判断
+            * 如果8个以上的话，则会转化为树或者扩容
+            */
+                V oldVal = null;
+                synchronized (f) {
+                //再次取出要存储位置的元素，跟前面取出来的比较
+                    if (tabAt(tab, i) == f) {
+                    //取出来的元素的hash值大于0，当转换树之后hash值为-2
+                        if (fh >= 0) {
+                            binCount = 1;
+                            for (Node<K,V> e = f;; ++binCount) { //遍历链表
+                                K ek;
+                                //要存的元素的hash，key跟要存储的位置的节点相同的时候，替换调该节点value
+                                if (e.hash == hash &&
+                                    ((ek = e.key) == key ||
+                                     (ek != null && key.equals(ek)))) {
+                                    oldVal = e.val;
+                                    if (!onlyIfAbsent)//当使用putIfAbsend的时候，只有这个key没有设置值的时候裁设置
+                                        e.val = value;
+                                    break;
+                                }
+                                Node<K,V> pred = e;
+                                //如果不是同样的hash同样的key的时候则判断该节点的下一节点是否为空，空的话把这个要加入的节点
+                                //设置为当前节点的下一节点
+                                if ((e = e.next) == null) {
+                                    pred.next = new Node<K,V>(hash, key,
+                                                              value, null);
+                                    break;
+                                }
+                            }
+                        }
+                        else if (f instanceof TreeBin) {
+                            Node<K,V> p;
+                            binCount = 2;
+                            if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
+                                                           value)) != null) {
+                                oldVal = p.val;
+                                if (!onlyIfAbsent)
+                                    p.val = value;
+                            }
+                        }
+                    }
+                }
+                if (binCount != 0) {
+                    if (binCount >= TREEIFY_THRESHOLD)
+                        treeifyBin(tab, i);
+                    if (oldVal != null)
+                        return oldVal;
+                    break;
+                }
+            }
+        }
+        addCount(1L, binCount);
+        return null;
+    }  
+```
+### HashSet
+是对HashMap的简单包装，对HashSet的函数调用都会转换成合适的HashMap方法，因此HashSet的实现非常简单
+```$xslt
+//HashSet是对HashMap的简单包装
+public class HashSet<E>
+{
+    ......
+    private transient HashMap<E,Object> map;//HashSet里面有一个HashMap
+    // Dummy value to associate with an Object in the backing Map
+    private static final Object PRESENT = new Object();
+    public HashSet() {
+        map = new HashMap<>();
+    }
+    ......
+    public boolean add(E e) {//简单的方法转换
+        return map.put(e, PRESENT)==null;
+    }
+    ......
+}
+
+```
+- 成员变量
+```$xslt
+    private transient HashMap<E,Object> map;
+
+    // Dummy value to associate with an Object in the backing Map
+    private static final Object PRESENT = new Object();
+
+```
+- 构造函数
+```$xslt
+public HashSet(){
+    map=new HashMap<>();
+}
+
+public HashSet(int initialCapacity,float loadFactor){
+    map=new HashMap<>(initialCapacity,loadFactor);
+}
+```
+- add()
+比较关键的就是这个add方法，可以看出它是将存放的对象当作HashMap的key学
+由于HashMap的key是不能重复的，所以每当有重复的值写入到Hashset时value会被覆盖
+但是key不会受到影响，这样就保证了HashSet中只能存放不重复的元素
+```$xslt
+public boolean add(E e){
+    return map.put(e,present)==null;
+}
+```
+### linkedHashSet和LinkedHashMap
+
 ```
 public class DoubleLinkedList{
     private Node first;
