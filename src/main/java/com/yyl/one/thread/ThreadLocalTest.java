@@ -20,19 +20,37 @@ public class ThreadLocalTest {
         }
     };
     public static void main(String[] args) throws ClassNotFoundException {
+        ThreadLocal<Boolean> threadLocal=new ThreadLocal<>();
+        threadLocal.set(true);
+        System.out.println("main"+threadLocal.get());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                threadLocal.set(false);
+                System.out.println("thread1"+threadLocal.get());
 
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("thread2"+threadLocal.get());
+
+            }
+        }).start();
         /*List ids = null;
         for (int i = 0; i <10 ; i++) {
             ids= Collections.singletonList(i);
         }
         System.out.println(ids);*/
-        int i = 16 % 16;
+       /* int i = 16 % 16;
         // 00001111
         // 00010000
         int i1 = 16 & 15;
         System.out.println(i);
 
-        System.out.println(i1);
+        System.out.println(i1);*Integer*/
 
         /*Integer []arr={1,2,3};
         List<Integer> integers = Arrays.asList(arr);
