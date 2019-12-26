@@ -1,5 +1,9 @@
 package com.yyl.one.array;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * @author yyl
  * @date 2018/12/3 下午11:32
@@ -35,10 +39,23 @@ public class HashTest {
     }
 
     public static void main(String[] args) {
-        String a="1234";
+       /* String a="1234";
         String b="4328";
         boolean b1 = chkTransform(a, 4, b, 4);
-        System.out.println(b1);
+        System.out.println(b1);*/
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("1",null);
+        map.put("2",null);
+        map.put("3",null);
+        map.put("4",null);
+        map.put("5",null);
+        map.put("6",6);
+
+        Map<String, Object> newMap = map.entrySet().stream().filter((e) -> e.getValue() != null).collect(Collectors.toMap(
+                (e) -> (String) e.getKey(),
+                (e) -> e.getValue()));
+        System.out.println(newMap);
     }
 
 
