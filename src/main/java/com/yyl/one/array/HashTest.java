@@ -1,5 +1,7 @@
 package com.yyl.one.array;
 
+import org.springframework.util.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,11 +53,28 @@ public class HashTest {
         map.put("4",null);
         map.put("5",null);
         map.put("6",6);
-
+        long start = System.currentTimeMillis();
         Map<String, Object> newMap = map.entrySet().stream().filter((e) -> e.getValue() != null).collect(Collectors.toMap(
                 (e) -> (String) e.getKey(),
                 (e) -> e.getValue()));
         System.out.println(newMap);
+        long end=System.currentTimeMillis();
+        System.out.println(end-start);
+
+
+
+        Map<String,Object> map2=new HashMap<>();
+        map2.put("1",null);
+        map2.put("2",null);
+        map2.put("3",null);
+        map2.put("4",null);
+        map2.put("5",null);
+        map2.put("6",6);
+        long start2 = System.currentTimeMillis();
+        map2.values().removeIf(StringUtils::isEmpty);
+        System.out.println(map2);
+        long end2=System.currentTimeMillis();
+        System.out.println(end2-start2);
     }
 
 
