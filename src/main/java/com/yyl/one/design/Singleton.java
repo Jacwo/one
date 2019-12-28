@@ -1,6 +1,9 @@
 package com.yyl.one.design;
 
 import java.security.PrivateKey;
+import java.text.NumberFormat;
+import java.util.Calendar;
+import java.util.ResourceBundle;
 
 /**
  * author:yangyuanliang Date:2019-12-19 Time:16:09
@@ -22,6 +25,7 @@ public class Singleton {
     private Singleton(){
 
     }
+
     private static volatile  Singleton singleton=null;
     public static Singleton getInstance(){
         if(singleton==null){
@@ -34,4 +38,10 @@ public class Singleton {
         return singleton;
     }
 
+    public static void main(String[] args) {
+
+        String s1=new String("a");
+        String s2=new String("a");
+        System.out.println(s1==s2);
+    }
 }
