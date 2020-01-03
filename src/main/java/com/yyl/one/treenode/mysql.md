@@ -109,6 +109,130 @@
         B+Tree
 ![alt](https://frank-lam.github.io/fullstack-tutorial/assets/061c88c1-572f-424f-b580-9cbce903a3fe.png)
         
+        每个节点的指针上限为2d而不是2d+1
+        内节点不存储data，只存储key
+        叶子节点不存储指针
+![alt](https://frank-lam.github.io/fullstack-tutorial/assets/061c88c1-572f-424f-b580-9cbce903a3fe.png)
         
-                          
+        一般在数据库系统或文件系统中使用的B+Tree结构都在经典B+Tree基础上进行优化，在叶子节点增加了顺序访问指针。这个优化的
+        目的是为了提高区间访问性能
+        BTree索引优势
+        1、更少的检索次数
+        平衡树检索数据的时间复杂度等于树高h而树高大致为O(h)=O(logdN)其中d为每个节点的出度
+        红黑树的出度为2而BTree的出度一般非常大，红黑树的树高h很明显比BTree大非常多，因此检索次数也就更多
+        B+tree相比于B-Tree更适合外存索引，因为B+Tree内节点去掉了data域，因此可以拥有很大的出度，检索效率会更高。
+        2、利用计算机预读特性
+        为了减少磁盘IO磁盘往往不是严格按需读取，而是每次都会预读。预读过程中，磁盘进行顺序读取，顺序读取不需要进行磁盘寻道，
+        并且只需要很短的旋转时间，因此速度会非常快。
+8.索引分类
+    
+    1.B+Tree索引
+        是大多数mysql存储引擎的默认索引类型，因为不需要进行全表扫描，只需要对树进行搜索即可，因此查找速度快很多，除了用于查找，
+        还可用于排序和分组
+        
+        可以指定多个列作为索引列，多个索引咧共同组成建
+        
+        B+Tree索引适用于全建值、键值范围和键值前缀查找，其中键值前缀查找只适用于最左前缀查找
+        
+        如果不是按照索引列的顺序进行查找，则无法使用索引。
+        
+        InnoDB的B+Tree索引分为主索引和辅助索引
+        
+        主索引的叶子节点data域记录完整的数据记录，这种索引方式称为聚簇索引，因为无法把数据行存放在两个不同的地方，所以一个表只能
+        有一个聚簇索引。
+![alt](https://frank-lam.github.io/fullstack-tutorial/assets/c28c6fbc-2bc1-47d9-9b2e-cf3d4034f877.jpg)        
+       
+        辅助索引的叶子接待你的data域，记录着主键的值，因此在使用辅助索引进行查找时，需要先查找到主键值，然后到主索引中进行查找。
+![alt](https://frank-lam.github.io/fullstack-tutorial/assets/7ab8ca28-2a41-4adf-9502-cc0a21e63b51.jpg)      
+    
+    2.哈希索引
+    
+        InnoDB引擎又一个特殊的功能叫自适应哈希索引，当某个索引值被使用的非常频繁的时候，会在B+Tree索引之上在创建一个哈希索引
+        这样就让B+tree索引具有哈希索引的一些优点，比如快速的哈希查找。
+        哈希索引能以O（1）时间进行查找，但是失去了有序性，它具有以下限制
+        无法用于排序和分组
+        只支持精确查找，无法用于部分查找和范围查找
+          
+    3.全文索引
+        MyISAM存储引擎支持全文索引，用于查找文本中的关键词，而不是直接比较是否相等，查找条件使用MATCHAGAINST而不是普通的WHERE
+        全文索引一般使用倒序排索引实现，它记录着关键词到其所在文档的映射。
+        InnoDB存储引擎在mysql5.6.4版本中也支持全文索引。
+        
+    4.空间数据索引   
+        MyISAM存储引擎支持空间数据索引，可以用于地理数据存储，空间数据索引会从所有纬度来索引数据，可以有效地使用任意纬度来进行组合查询
+        
+9.索引的特点
+
+     1.可以加快数据库检索速度
+     2.降低数据库插入修改删除的速度
+     3.只能创建在表上不能创建在试图上
+     4.既可以直接创建，又可以间接创建
+     5.可以在优化隐藏中使用索引
+     6.使用查询处理器执行sql语句，在一个表上一次只能使用一个索引
+     优点
+     1.创建唯一性索引保证数据库表中每一行数据的唯一性
+     2.大大加快数据的检索速度，这是创建索引最主要的原因
+     3.加速数据表之间的链接，特别是在实现数据的参考完整性方面又特别的意义
+     4.在使用分组和排序子句进行检索数据时，同样可以显著减少查询中分组和排序的时间
+     5.通过使用索引，可以在查询中优化隐藏器，提高系统性能
+     缺点
+     1.创建索引和维护索引要耗费时间，这种时间随着数据量的增加而增加
+     2.创建索引要占有物理空间，除了数据表占用数据空间之外，每一个索引还要占一定的物理空间，如果建立聚簇索引空间更大
+     3.当对表中的数据进行增加，修改删除的时候，索引也需要为空，降低数据维护的速度
+     
+10.索引失效
+    
+    1.如果条件中有or即使其中有条件带索引也不会使用 select * from table where name='1' or name='2'
+    2.复合索引，如果索引列不是复合索引列的一部分，则不使用索引（不符合最左前缀）
+        （key1,key2） select * from table where key2='2'; 
+    3.如果like是以%开始的则不适用索引
+        select * from table where name like '%a';
+    4.如果列为字符串，则where条件中必须将字符串常量加引号，否则会使索引失效
+        select * from table where name=1;
+    5.如果mysql估计使用全表比使用索引快，则不使用索引 key均匀分布在1到100之间
+        select * from table where key>1 and key<90
+        
+11.什么情况下适合建立索引          
+    
+    1.为经常出现在关键字order by 、group by distinct后面的字段，建立索引
+    2.在union等稽核操作的结果集字段上、建立索引，其建立索引的目的同上
+    3.为经常做查询选择where后的字段、建立索引
+    4.在经常使用做表链接的join属性上，建立索引
+    5.考虑使用索引覆盖，对数据很少被更新的表，如果用户经常只查询其中几个字段，可以考虑在这几个字段上建立索引
+12.为什么使用B+Tree
+   
+   
+    B+树只有叶节点存放数据，其余节点用来索引，而B-树是每个索引节点都会有data域，所以从innodb的角度来看，B+树
+    是用来充当索引的，一般来说索引非常大，尤其关系性数据库这种数据量大的索引能达到亿级别，所以为了减少内存的占有，
+    索引也会被存储到磁盘上。
+    
+    衡量mysql查询效率，磁盘的IO次数
+    考虑树的深度说起
+13.创建索引
+    
+   ```$xslt
+     ALTER TABLE table_name ADD INDEX index_name (column_list)
+     ALTER TABLE table_name ADD UNIQUE (column_list)
+     ALTER TABLE table_name ADD PRIMARY KEY (column_list)
+     CREATE INDEX index_name ON table_name (column_list)
+     CREATE UNIQUE INDEX index_name ON table_name (column_list)
+      DROP INDEX index_name ON talbe_name
+      ALTER TABLE table_name DROP INDEX index_name
+      ALTER TABLE table_name DROP PRIMARY KEY
+   ```    
+14. 主键、外键和索引的区别
+    
+    
+    主键 唯一标示一条记录，不允许为空
+    外键 是另外一个表的主键，可以重复，可以是空
+    索引 该字段没有重复值，但可以有一个空值     
+        
+    
+ [很牛的讲解索引文章](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)
+ 
+ 
+        
+ 
+        
+                                
             
