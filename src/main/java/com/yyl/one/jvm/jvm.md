@@ -276,13 +276,13 @@ class文件输入到JVM中，加载并执行该类文件
 自定义类加载器           
 ### 创建一个对象的过程
 Student s=new Student();
-1.加载Student.class文件进内存
-2.在栈内存为s开辟空间
-3.在堆内存为student对象开辟空间
-4.对Student对象的成员变量进行默认初始化
-5.对成员变量进行显示初始化
-6.通过构造方法对Student对象的成员变量赋值
-7.Student对象初始化完毕，把对象地址赋值给s变量
+1. 加载Student.class文件进内存
+2. 在栈内存为s开辟空间
+3. 在堆内存为student对象开辟空间
+4. 对Student对象的成员变量进行默认初始化
+5. 对成员变量进行显示初始化
+6. 通过构造方法对Student对象的成员变量赋值
+7. Student对象初始化完毕，把对象地址赋值给s变量
 
 ### java虚拟机工具
 jps、jstat、jinfo 、jmap、jstack
