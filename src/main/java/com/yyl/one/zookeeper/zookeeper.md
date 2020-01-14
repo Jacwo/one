@@ -20,26 +20,21 @@ zookeeper为了保证高吞吐和低延迟，在内存中维护了树状的目�
 ### 四种类型的znode
 
 - persistent-持久化目录节点
-  
-    
-    客户端与zookeeper断开连接后，该节点依旧存在
+     
+      客户端与zookeeper断开连接后，该节点依旧存在
 - persistent_sequential-持久化顺序编号目录节点
-   
-    
-    客户端与zookeeper断开连接后，该节点依旧存在，只是zookeeper给该接待你名称进行顺序编号
-   
+
+      客户端与zookeeper断开连接后，该节点依旧存在，只是zookeeper给该节点名称进行顺序编号
 - ephemeral-临时目录节点
-    
-        
-    客户端与zookeeper断开连接后，该节点被删除
-    
+       
+      客户端与zookeeper断开连接后，该节点被删除 
 - ephemeral_sequential 临时顺序编号目录节点
 
-    
-     客户端与zookeeper断开连接后，该接待你被删除，只是zookeeper给该接待你名称进行顺序编号
+      客户端与zookeeper断开连接后，该接待你被删除，只是zookeeper给该节点名称进行顺序编号
 
 ### zookeeper通知机制
-client端会对某个znode建立一个watcher事件，当该znode发生编号时，这些client会收到zk的通知，然后client可以根据znode变化来做业务上的改变等
+client端会对某个znode建立一个watcher事件，当该znode发生编号时，这些client会收到zk的通知，
+然后client可以根据znode变化来做业务上的改变等
 
 ### zookeeper做了什么
 - 命名服务
