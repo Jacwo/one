@@ -8,6 +8,7 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 /**
  * author:yangyuanliang Date:2019-12-10 Time:19:19
+ * 利用Semaphore封装一个带有边界的hashset
  **/
 public class BoundedHashSet<T> {
     private final Set<T> set;
