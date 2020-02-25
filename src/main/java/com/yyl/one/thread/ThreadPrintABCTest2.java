@@ -7,9 +7,9 @@ import java.util.concurrent.Semaphore;
  **/
 public class ThreadPrintABCTest2 {
     public static void main(String[] args) {
-        Semaphore semaphore1=new Semaphore(0);
-        Semaphore semaphore2=new Semaphore(0);
-        Semaphore semaphore3=new Semaphore(0);
+        Semaphore semaphore1=new Semaphore(1);
+        Semaphore semaphore2=new Semaphore(1);
+        Semaphore semaphore3=new Semaphore(1);
         new Thread(() -> {
             for (int i = 0; i <10 ; i++) {
                 try {

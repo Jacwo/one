@@ -21,9 +21,10 @@ public class ArrayCopyTest {
         //copy sum
         System.arraycopy(array1,1,array2,2,3);
         for (int i = 0; i < array2.length; i++) {
-           // System.out.println(array2[i]);
-        }
+             System.out.print(array2[i]);
 
+        }
+        System.out.println();
         int[]array3=new int[5];
         for (int i = 0; i <array1.length ; i++) {
             array3[i]=array1[i];

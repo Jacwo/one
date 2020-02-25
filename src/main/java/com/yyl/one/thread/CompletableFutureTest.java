@@ -7,6 +7,7 @@ import java.util.concurrent.*;
  **/
 public class CompletableFutureTest {
     private ThreadLocalRandom random;
+
     private ExecutorService executorService= Executors.newCachedThreadPool();
     public Future<Double> getPriceAsync(String product){
         CompletableFuture<Double> future=new CompletableFuture<>();
@@ -28,7 +29,7 @@ public class CompletableFutureTest {
 
     private void delay() {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

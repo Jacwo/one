@@ -41,6 +41,9 @@ public class TestCase {
         long count = list.stream().filter(student -> student.getAge() < 45).count();
         System.out.println(count);
         // reduce
+       // list.stream().flatMap()
+        //list.parallelStream()
+
         String names=list.stream().map(Student::getName).collect(Collectors.joining(",","[","]"));
         System.out.println(names);
 
