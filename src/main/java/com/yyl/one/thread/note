@@ -81,3 +81,27 @@ Timer在执行定时任务时只会创建 一个线程，如果某个任务执�
 连续的调用4次，或者丢失4次调用，
 另一个问题是TimerTask抛出一个未检查的异常，那么timer将表现出糟糕的行为，timer不会捕获异常，并且将终止定时线程
 这种情况下timer也不会恢复线程的执行，而是错误的认识整个timer取消了。
+
+1.线程安全：
+	互斥同步 synchronized，ReentrantLock、ReadWriteLock、Vector、Collections.synchronizedMap()
+	非互斥同步AtomicInteger
+	并发容器 ConcurrentHashMap CopyOnWriteArrayList 并发队列（LinkedBlockingQueue、ArrayBlockingQueue ConcurrentSkipListMap ConcurrentSkipListSet
+	无同步方案final、threadlocal。
+2.管理线程、提高效率
+       Executor 、Executors、ExecotorService、常见线程池（FixedThreadPool、CachedThreadPool、ScheduledThreadPool、SingleThreadPool）
+3.线程协作
+	CountDownLatch、CyclicBarried Semaphore  AQS
+
+
+线程池
+1.介绍
+2.创建和停止线程池
+4.常见线程池的特点和用法
+FixedThreadPool
+由于穿进去的LinkedBlockingQueue是没有容量上限的，所以当请求数越来越多，并且无法及时处理完毕的时候，会容易造成占用大量的内存，可能导致OOM
+SingleThreadPool
+单个线程
+CachedThreadPool
+无界的线程池，可以自动回收多余线程。线程可以无限创建
+ScheduledThreadPool
+

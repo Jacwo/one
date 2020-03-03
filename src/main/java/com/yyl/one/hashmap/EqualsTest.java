@@ -2,6 +2,9 @@ package com.yyl.one.hashmap;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author yyl
@@ -10,14 +13,17 @@ import java.util.Objects;
 public class EqualsTest {
 
     public static void main(String[] args) {
-        boolean equals = "1".equals(1);
+        /*boolean equals = "1".equals(1);
         System.out.println(equals);
 
         Integer integer=new Integer(139);
         boolean equals1 = integer.equals(129);
         boolean b = 139 == integer;
         System.out.println(b);
-        System.out.println(equals1);
+        System.out.println(equals1);*/
+        //Executors
+       // Executor
+       // ExecutorService
         Person person1=new Person(1,"zs");
         Person person2=new Person(1,"zs");
 
