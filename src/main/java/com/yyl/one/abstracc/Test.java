@@ -5,7 +5,7 @@ package com.yyl.one.abstracc;
  **/
 public class Test {
     public static void main(String[] args) {
-        AbstractTest abstractTest=new Con();
+        AbstractTest abstractTest=new Conp();
         abstractTest.foo();
         abstractTest.a();
         AbstractTest.foor();
