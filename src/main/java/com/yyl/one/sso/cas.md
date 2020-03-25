@@ -27,6 +27,26 @@
 	method 
 	发送响应时要使用的方法。虽然本机HTTP重定向（GET）可以用作默认方法，但需要POST响应的应用程序可以使用此参数指示方法类型。还可以指定头方法来指示CAS最终响应，例如service和tickets应该以HTTP响应头的形式返回。由CAS服务器实现决定是否支持POST或HEADER响应。
 	
+	TGT
+    是cas为用户签发的登录票据
+    拥有TGT，用户就可以证明自己在cas成功登录过
+    TGT封装了Cookie值以及cookie对应的用户信息。用户在cas认证
+    成功后，cas生成cookie叫TGC，同时生成一个TGT对象，放入自己的缓存
+    TGT对象的ID就是cookie的值，当HTTP再次请求到来时候，如果传过来的
+    有cas生成的cookie则cas以此cookie值查询有没有TGT，如果有的画，则说明
+    用户之前登录过，没有则需要重新登录
+    
+    TGC
+    存放用户身份凭证的cookie，在浏览器和Cas间通讯时使用，并且只能给予安全通道
+    传输，是CASserver用来明确用户身份的凭证
+    
+    ST
+    ST是CAS为用户签发的访问某一service的票据，用户访问service时候，service没有发现用户
+    没有ST则要用户去cas获取st用户向cas发出获取st的请求，如果用户的请求中包含cookie则cas会
+    以此cookie值为key查询缓存中有无TGT，如果存在TGT则用次TGT签发一个ST返给用户
+    用户凭借着st去访问service，service拿st去cas验证，验证通过后允许访问资源。
+	
+	
 	示例
 	简单登录
 	https://cas.example.org/cas/login?service=http%3A%2F%2Fwww.example.org%2Fservice
