@@ -87,6 +87,8 @@ xml--------Resource--------BeanDefinition---------BeanFactory
     beanFactory 是spring最底层的接口，提供了嘴贱的容器的功能，只提供了实例化对象和拿对象的功能、
     装载bean的区别，beanFactoiry在启动的时候不会取实例化bean，从容器中拿bean的时候才会实例化
     applicationContext 在启动的时候就把所有的bean全部实例化，他还提供延迟实例化的方法lazy-init=true
+- springmvc返回xml
+    @RequestMapping(value = "/serviceValidate", produces = {"application/xml; charset=UTF-8"})
               
 
  
