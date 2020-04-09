@@ -1,0 +1,21 @@
+git init
+查看当前仓库状态
+
+git status
+将项目的文件添加到仓库中
+
+git add test.txt
+git add -A
+git add .
+将add的文件commit到仓库
+
+git commit -m "提交内容介绍"
+将本地的仓库关联到远程仓库上
+
+git remote add origin 远程仓库地址
+代码合并 拉取
+
+git pull --rebase origin master
+代码上传到远程仓库
+
+git push -u origin master
