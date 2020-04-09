@@ -19,3 +19,14 @@ git pull --rebase origin master
 代码上传到远程仓库
 
 git push -u origin master
+git branch test
+git checkout test
+git checkout maste
+git merge test
+git checkout -b test
+git add .
+git commit 
+git push
+git pull
+git status
+git diff
