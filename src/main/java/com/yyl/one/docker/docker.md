@@ -14,4 +14,18 @@
 Registry就是这样的服务
 
 一个docker registry中可以包含多个仓库，每个仓库可以包含多个标签，每个标签对应一个镜像
+### docker离线部署
+---执行 docker pull */mgob:1.0
+---查看镜像  docker images
+ 
+	---执行 docker save e981a4c3e009 > mgob.tar   image id
+---查看打好包的镜像
+ 
+---想办法拷贝下来然后上传到部署的master服务器
+---然后进入上传的目录执行 docker load < mgob.tar
+ 
+--- 然后执行docker images发现有个镜像没有tag标识，记录images id
+ 
+---最后执行 docker tag e981a4c3e009 id.ruijie.com.cn:25082/sourceid/mgob:1.0
+---然后查看镜像 docker images
 

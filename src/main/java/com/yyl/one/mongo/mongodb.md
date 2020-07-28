@@ -62,3 +62,17 @@
     db.test.find( {price : {$lte : 24}} ) ===》》where price <= 24
     db.test.find( {price : {$ne : 24}} ) ===》》 where price != 24
     db.test.find( {$or:[{name : "2"},{price : 24}]} ) where name = "2" or price = 24
+
+## 查询当前操作
+
+    - db.currentOp()
+    - db.MongoDbCasAuditRepository.createIndex({"property.userId":"hashed"}),{background:true});
+    - db.MongoDbCasAuditRepository.getIndexes();
+    - db.killOp(234906843)
+    - db.SYNC_APPLICATION.update({key:"WE_CHAT"},{$set:{"isPushRoot":true}},{multi:true})
+    - db.setProfilingLevel(1,300);
+    - mongotop 10 --host localhost --port 27017  -uadmin --authenticationDatabase=admin
+    - mongostat  --host localhost --port 27017  -uadmin --authenticationDatabase=admin -n 30 3
+    - db.enableFreeMonitoring()
+    - rs.slaveOk()
+    - db.disableFreeMonitoring()
