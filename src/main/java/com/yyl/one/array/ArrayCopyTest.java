@@ -14,6 +14,7 @@ public class ArrayCopyTest {
     public static void main(String[] args) {
         int[] array1={1,2,3,4,5};
         int[] array2=new int[array1.length];
+        Arrays.sort(array1);
         //source arr
         // source arr start
         //dest arr
@@ -22,7 +23,6 @@ public class ArrayCopyTest {
         System.arraycopy(array1,1,array2,2,3);
         for (int i = 0; i < array2.length; i++) {
              System.out.print(array2[i]);
-
         }
         System.out.println();
         int[]array3=new int[5];
@@ -35,6 +35,8 @@ public class ArrayCopyTest {
 
 
        // int []array4=new int[5];
+        // @param original the array to be copied
+        // @param newLength the length of the copy to be returned
         int[] array4 = Arrays.copyOf(array1, 3);
 //        int[] copy = new int[newLength];
 //        System.arraycopy(original, 0, copy, 0,
