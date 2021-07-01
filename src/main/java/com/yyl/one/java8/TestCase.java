@@ -24,7 +24,7 @@ public class TestCase {
         List<Student> list = Stream.of(studentList, Arrays.asList(new Student("艾斯", 25, 183),
                         new Student("雷利", 48, 176)))
                 .flatMap(students1 -> students1.stream()).collect(Collectors.toList());
-        System.out.println(list);
+        System.out.println("list----"+list);
         //max和min求最大最小值
         Optional<Student> max = list.stream()
                 .max(Comparator.comparing(stu -> stu.getAge()));

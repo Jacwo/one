@@ -13,12 +13,15 @@ public class TestRetain {
         List<String> list2 = Arrays.asList("hello", "hi", "你好");
         List<String> list3 = Arrays.asList("zhangsan", "lisi", "wangwu", "zhaoliu");
 
-        list2.stream().map(item -> list3.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList()).forEach(System.out::println);
-        list2.stream().flatMap(item -> list3.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList()).forEach(System.out::println);
-
+        list2.stream().map(item -> list3.stream().map(item2 -> item + " " + item2)).forEach(p->{
+            List<String> collect = p.collect(Collectors.toList());
+            System.out.println(collect);
+        });
+        List<String> collect = list2.stream().flatMap(item -> list3.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList());
+        System.out.println(collect);
         //实际上返回的类似是不同的
-        List<Stream<String>> list2Result = list2.stream().map(item -> list3.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList());
-        List<String> list2Result2 = list2.stream().flatMap(item -> list3.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList());
+      // List<Stream<String>> list2Result = list2.stream().map(item -> list3.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList());
+        //List<String> list2Result2 = list2.stream().flatMap(item -> list3.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList());
 
 
         /* Set<String> keys = map.keySet();
