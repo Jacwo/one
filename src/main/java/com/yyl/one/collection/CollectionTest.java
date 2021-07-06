@@ -1,11 +1,22 @@
 package com.yyl.one.collection;
 
 
+
+import org.apache.commons.collections.CollectionUtils;
+
 import java.util.*;
-import java.util.concurrent.locks.ReadWriteLock;
 
 public class CollectionTest {
     public static void main(String[] args) {
+        Set<String> set=new HashSet<>();
+        set.add("EMAIL");
+        set.add("NAME");
+        Set<String> set2=new HashSet<>();
+        set2.add("EMAIL");
+       // set2.add("NAME");
+        Collection<String> intersection = CollectionUtils.intersection(set, set2);
+        System.out.println(intersection);
+        System.out.println("-------------------------------");
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         arrayList.add(-1);
         arrayList.add(3);
