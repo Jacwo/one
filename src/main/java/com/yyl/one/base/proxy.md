@@ -1,0 +1,23 @@
+Cglib和jdk动态代理的区别？
+1、Jdk动态代理：利用拦截器（必须实现InvocationHandler）加上反射机制生成一个代理接口的匿名类，在调用具体方法前调用InvokeHandler来处理
+2、 Cglib动态代理：利用ASM框架，对代理对象类生成的class文件加载进来，通过修改其字节码生成子类来处理
+什么时候用cglib什么时候用jdk动态代理？
+1、目标对象生成了接口 默认用JDK动态代理
+2、如果目标对象使用了接口，可以强制使用cglib
+3、如果目标对象没有实现接口，必须采用cglib库，Spring会自动在JDK动态代理和cglib之间转换
+JDK动态代理和cglib字节码生成的区别？
+1、JDK动态代理只能对实现了接口的类生成代理，而不能针对类
+2、Cglib是针对类实现代理，主要是对指定的类生成一个子类，覆盖其中的方法，并覆盖其中方法的增强，但是因为采用的是继承，所以该类或方法最好不要生成final，对于final类或方法，是无法继承的
+ Cglib比JDK快？
+1、cglib底层是ASM字节码生成框架，但是字节码技术生成代理类，在JDL1.6之前比使用java反射的效率要高
+2、在jdk6之后逐步对JDK动态代理进行了优化，在调用次数比较少时效率高于cglib代理效率
+3、只有在大量调用的时候cglib的效率高，但是在1.8的时候JDK的效率已高于cglib
+4、Cglib不能对声明final的方法进行代理，因为cglib是动态生成代理对象，final关键字修饰的类不可变只能被引用不能被修改
+Spring如何选择是用JDK还是cglib？
+1、当bean实现接口时，会用JDK代理模式
+2、当bean没有实现接口，用cglib实现
+3、可以强制使用cglib（在spring配置中加入<aop:aspectj-autoproxy proxyt-target-class=”true”/>）
+ Jdk中的动态代理
+JDK中的动态代理是通过反射类Proxy以及InvocationHandler回调接口实现的，但是JDK中所有要进行动态代理的类必须要实现一个接口，也就是说只能对该类所实现接口中定义的方法进行代理，这在实际编程中有一定的局限性，而且使用反射的效率也不高
+ Cglib实现
+使用cglib是实现动态代理，不受代理类必须实现接口的限制，因为cglib底层是用ASM框架，使用字节码技术生成代理类，你使用Java反射的效率要高，cglib不能对声明final的方法进行代理，因为cglib原理是动态生成被代理类的子类

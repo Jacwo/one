@@ -10,8 +10,8 @@ public class StringTest {
         String test3="hello "+test1.split(" ")[1];
         String test5="hello "+test4;
         System.out.println(test5.equals(test1));
-      //  System.out.println(test1.equals(test3));
-   //     System.out.println(test1==test2);
+        System.out.println(test1.equals(test3));
+        System.out.println(test1==test2);
         boolean equals = s.equals(a);
        // System.out.println(equals);
     }
