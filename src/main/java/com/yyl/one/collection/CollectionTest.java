@@ -5,6 +5,7 @@ package com.yyl.one.collection;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CollectionTest {
     public static void main(String[] args) {
@@ -52,13 +53,15 @@ public class CollectionTest {
         Collections.swap(arrayList, 2, 5);
         System.out.println("Collections.swap(arrayList, 2, 5):");
         System.out.println(arrayList);
-
+        List list=new ArrayList();
+        Collections.synchronizedMap(new HashMap<>());
+        List list1 = Collections.synchronizedList(list);
         // 定制排序的用法
         Collections.sort(arrayList, new Comparator<Integer>() {
 
             @Override
             public int compare(Integer o1, Integer o2) {
-                return o2.compareTo(o1);
+                return o1.compareTo(o2);
             }
         });
         System.out.println("定制排序后：");
