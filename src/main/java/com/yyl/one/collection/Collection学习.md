@@ -99,9 +99,10 @@ public synchronized E get(int index) {
 }
 
 ```
+- Collections.syncXxxx() 线程安全原理，内部有一个mutex对象，操作前都需要获取mutex对象锁，使用他保证线程安全。
 - ArrayList和LinkedList异同
     1. 是否保证线程安全  都不能
-    2. 底层数据结构 ArrayList底层使用的是Object数组  linkedLiest使用的是双向链表
+    2. 底层数据结构 ArrayList底层使用的是Object数组  linkedList使用的是双向链表
     3. 插入和删除是否受元素位置影响
         - ArrayList采用数组存储插入和删除的时间复杂度受元素位置影响 插入表头和表尾复杂度为O(1) 指定位置插入需要移动位置复杂度近似O(N)
         - LinkedList采用链表存储 插入和删除元素的复杂度不受元素位置影响近似O(1)
@@ -343,7 +344,7 @@ Node<E> node(int index) {
 
 - JDK1.7之前采用拉链法来存储数据，即数组和链表结合的方式
 拉链法又叫做链地址法，简单来说就是数组加链表的组合。在每个数组元素上存储的都是一个链表
-不能的key可能经过Hash运算得到相同的地址，但是一个数组单位上只能存放一个元素
+不同的key可能经过Hash运算得到相同的地址，但是一个数组单位上只能存放一个元素
 采用链地址放以后，如果遇到相同的hash值的key的时候，我们可以=将它放在数组元素的链表上
 待我们去取元素的时候通过Hash运算的结果找到这个链表，在在链表中找到与key相同的节点，就能
 找到key相应的值
@@ -436,7 +437,9 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
         if ((tab = table) == null || (n = tab.length) == 0)
             n = (tab = resize()).length;
          //根据hash值判断在数组中的位置,如果当前没有值直接new节点存储
+       
         if ((p = tab[i = (n - 1) & hash]) == null)
+             //此处是hashMap线程不安全的点，假如线程A执行的此处，让出cpu，线程b也出现了hash冲突，进入此处，完成了节点的新增，此时回到A之后，就会吧B线程的节点覆盖
             tab[i] = newNode(hash, key, value, null);
         else {
             //如果寻找的table数组有值，则判断key有没有存在
@@ -479,6 +482,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
             }
         }
         ++modCount;
+        //++size线程不安全
         if (++size > threshold)
         //扩容
             resize();
