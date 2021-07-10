@@ -492,87 +492,101 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 ```
 扩容操作
 ```$xslt
+/ ** 
+   *    If the table is empty, it is not initialized. If threshold. is greater than 0, 
+   * use its value as the length of the initialized table and the method ends; if threshold. is 0, 
+   * use the default value as the length of the initialized table, method End; 
+   * If the table is not empty, that is, it has been initialized, 
+   * and the original table length is already very large (>= MAXIMUM_CAPACITY), 
+   * then change the threshold to the maximum (Integer.MAX_VALUE) and return, no additional expansion operation is required
+   * If the original table length is not very large, the table length is doubled. 
+   * If the table length after the expansion is less than the maximum length (2^30), 
+   * and the original table length is greater than the default initial length, 
+   * the new threshold is the original threshold Double (that is, loadfactor times the new length)
+   * If the table is not empty, it has been initialized, 
+   * and the length of the table is changed, and the contents of the original table need to be copied
+ * @return the table
+ */
+ 
 final Node<K,V>[] resize() {
-        Node<K,V>[] oldTab = table;
-        int oldCap = (oldTab == null) ? 0 : oldTab.length;
-        int oldThr = threshold;
-        int newCap, newThr = 0;
-        if (oldCap > 0) {
-            if (oldCap >= MAXIMUM_CAPACITY) {
-                threshold = Integer.MAX_VALUE;
-                return oldTab;
-            }
-            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
-                     oldCap >= DEFAULT_INITIAL_CAPACITY)
-                newThr = oldThr << 1; // double threshold
+    Node<K,V>[] oldTab = table;
+    int oldCap = (oldTab == null) ? 0 : oldTab.length;
+    int oldThr = threshold;
+    int newCap, newThr = 0;
+         if (oldCap> 0) {//The table has been initialized
+                 //If the original table length is already very large (>= MAXIMUM_CAPACITY),
+                 // The threshold becomes the maximum (Integer.MAX_VALUE),
+                 // Just return, no additional expansion operation is required
+        if (oldCap >= MAXIMUM_CAPACITY) {
+            threshold = Integer.MAX_VALUE;
+            return oldTab;
         }
-        else if (oldThr > 0) // initial capacity was placed in threshold
-            newCap = oldThr;
-        else {               // zero initial threshold signifies using defaults
-            newCap = DEFAULT_INITIAL_CAPACITY;
-            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
-        }
-        if (newThr == 0) {
-            float ft = (float)newCap * loadFactor;
-            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
-                      (int)ft : Integer.MAX_VALUE);
-        }
-        threshold = newThr;
-        @SuppressWarnings({"rawtypes","unchecked"})
+        else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                 oldCap >= DEFAULT_INITIAL_CAPACITY)
+            newThr = oldThr << 1; // double threshold
+    }
+         else if (oldThr> 0) // Use a custom length. The initial table length is stored in the threshold. Note: The table length is not necessarily the specified length. The table length is greater than or equal to the minimum power of 2 of the custom length. Details See tableSizeFor() method
+        newCap = oldThr;
+         else {// threshold is 0 means use the default value
+        newCap = DEFAULT_INITIAL_CAPACITY;
+        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+    }
+         if (newThr == 0) {//Use a custom length
+        float ft = (float)newCap * loadFactor;
+        newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                  (int)ft : Integer.MAX_VALUE);
+    }
+    threshold = newThr;
+    @SuppressWarnings({"rawtypes","unchecked"})
         Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
-        table = newTab;
-        // 原先有元素扩容
-        if (oldTab != null) {
-            for (int j = 0; j < oldCap; ++j) {
-                Node<K,V> e;
-                if ((e = oldTab[j]) != null) {
-                    oldTab[j] = null;
-                    if (e.next == null)
-                        //重新计算在new数组的位置
-                        newTab[e.hash & (newCap - 1)] = e;
-                    else if (e instanceof TreeNode)
-                            //如果是二叉树拆
-                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-                    else { // preserve order
-                      //
-                        Node<K,V> loHead = null, loTail = null;
-                        Node<K,V> hiHead = null, hiTail = null;
-                        Node<K,V> next;
-                        do {
-                            next = e.next;
-                            //原先索引
-                            if ((e.hash & oldCap) == 0) {
-                                if (loTail == null)
-                                    loHead = e;
-                                else
-                                    loTail.next = e;
-                                loTail = e;
-                            }
-                            //原索引+oldCap
-                            else {
-                                if (hiTail == null)
-                                    hiHead = e;
-                                else
-                                    hiTail.next = e;
-                                hiTail = e;
-                            }
-                        } while ((e = next) != null);
-                        //原索引放到bucket里
-                        if (loTail != null) {
-                            loTail.next = null;
-                            newTab[j] = loHead;
+    table = newTab;
+         if (oldTab != null) {//table copy
+        for (int j = 0; j < oldCap; ++j) {
+            Node<K,V> e;
+            if ((e = oldTab[j]) != null) {
+                oldTab[j] = null;
+                                 if (e.next == null)//Only one node recalculates the position of the bucket
+                    newTab[e.hash & (newCap - 1)] = e;
+                                 else if (e instanceof TreeNode)//The case of the red-black tree
+                    ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                                 else {// In the case of a linked list, keep the relative order in the original linked list
+                                                 //Split the original linked list into two, the position of one bucket is still the original position (newTab[j), and the other is the position of the original bucket and the length of the original table (newTab[j + oldCap])
+                                                 //The basis for splitting is whether the node hash value & oldCap is 0
+                    Node<K,V> loHead = null, loTail = null;
+                    Node<K,V> hiHead = null, hiTail = null;
+                    Node<K,V> next;
+                    do {
+                        next = e.next;
+                        if ((e.hash & oldCap) == 0) {
+                            if (loTail == null)
+                                loHead = e;
+                            else
+                                loTail.next = e;
+                            loTail = e;
                         }
-                        //原索引+oldCap放到bucket里
-                        if (hiTail != null) {
-                            hiTail.next = null;
-                            newTab[j + oldCap] = hiHead;
+                        else {
+                            if (hiTail == null)
+                                hiHead = e;
+                            else
+                                hiTail.next = e;
+                            hiTail = e;
                         }
+                    } while ((e = next) != null);
+                    if (loTail != null) {
+                        loTail.next = null;
+                        newTab[j] = loHead;
+                    }
+                    if (hiTail != null) {
+                        hiTail.next = null;
+                        newTab[j + oldCap] = hiHead;
                     }
                 }
             }
         }
-        return newTab;
     }
+    return newTab;
+}
+
 ```
 线程安全性
 在多线程使用场景中，应该尽量避免使用线程不安全的hashmap，而是使用线程安全的
@@ -770,6 +784,15 @@ public boolean add(E e){
 }
 ```
 ### linkedHashSet和LinkedHashMap
+LinkedHashMap
+1.LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。
+2.HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序，那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。
+3.LinkedHashMap存取数据，还是跟HashMap一样使用的Entry[]的方式，双向链表只是为了保证顺序。
+4.LinkedHashMap是线程不安全的。
+linkedHashSet
+添加什么顺序就是什么顺序
+hashset
+会排序根据 hashCode值来决定该对象在HashSet中存储位置。
 
 ```
 public class DoubleLinkedList{
