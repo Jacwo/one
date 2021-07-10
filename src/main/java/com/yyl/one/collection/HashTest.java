@@ -28,6 +28,9 @@ public class HashTest {
 
 	}
 	/**
+	 *
+	 */
+	/**
 	 public HashMap.Node<K,V> getNode(int hash, Object key) {
 		HashMap.Node<K,V>[] tab; HashMap.Node<K,V> first, e; int n; K k;
 		if ((tab = table) != null && (n = tab.length) > 0 && (first = tab[(n - 1) & hash]) != null) {

@@ -10,21 +10,15 @@ public class HashMapInfiniteLoop {
 
     public static void main(String[] args) {
         map.put(5,"C");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                map.put(7,"B");
-                System.out.println(map);
-            }
+        new Thread(() -> {
+            map.put(7,"B");
+            System.out.println(map);
         }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                map.put(3,"A");
-                System.out.println(map);
+        new Thread(() -> {
+            map.put(3,"A");
+            System.out.println(map);
 
-            }
         }).start();
     }
 }
