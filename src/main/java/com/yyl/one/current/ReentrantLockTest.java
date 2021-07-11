@@ -28,7 +28,7 @@ public class ReentrantLockTest implements Runnable {
         thread.start();
         Thread.sleep(2000);
         System.out.println("通知T1条件满足");
-        lock.lock();
+       lock.lock();
         condition.signal();
         lock.unlock();
     }
