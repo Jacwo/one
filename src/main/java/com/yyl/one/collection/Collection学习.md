@@ -857,3 +857,15 @@ public class DoubleLinkedList{
      }
 }
 ```
+
+##
+## Collections.synchronized(HashMap) 和concurrentHashMap
+
+synchronized()内部有一个mutex对象，所有操作都需要获取这个对象的锁
+concurrentHashMap ， 1.7使用的是分段锁，锁的力度较细，1.8使用cas加synchronized
+实现线程安全，cas不会造成线程阻塞，synchronized会锁住node节点即链表，不会影响其他线程操作别的node节点
+
+
+### 生产者消费者模型解决的问题
+1.解偶、
+2.异步
