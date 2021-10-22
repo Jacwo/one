@@ -28,7 +28,7 @@ git add .
 git commit 
 git push
 git pull
-git status
+git status   
 git diff
 git push
 git remote set-url origin https://github.com/Jacwo/one.git/

@@ -69,4 +69,33 @@ public class summaryRanges {
         }
         return list;
     }
+
+
+    public List<String> summaryRanges3(int[] nums) {
+        List<String> res=new ArrayList<>();
+        if(nums.length==0){
+            return res;
+        }
+        int start =0;
+        int end = 0;
+        for(int i=1;i<nums.length;i++){
+            if(nums[end]+1 == nums[i]){
+                end++;
+                continue;
+            }
+            if(end == start){
+                res.add(nums[start]+"");
+            }else{
+                res.add(nums[start]+"->"+nums[end]);
+            }
+            start = end+1;
+            end =start;
+        }
+        if(end == start){
+            res.add(nums[start]+"");
+        }else{
+            res.add(nums[start]+"->"+nums[end]);
+        }
+        return res;
+    }
 }
