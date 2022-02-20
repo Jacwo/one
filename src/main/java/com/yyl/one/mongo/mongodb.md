@@ -76,3 +76,9 @@
     - db.enableFreeMonitoring()
     - rs.slaveOk()
     - db.disableFreeMonitoring()
+    
+### MySQL VS MongoDB
+1.Mysql是关系型数据库，而MongoDB是非关系型
+2.MongoDB文档自然地映射我们的Model，而Mysql通常需要多表关联进行数据映射。
+3.横向拓展能力MongoDB可以通过原生分片完善支持，而Mysql只能通过数据分区或者应用侵入式的访问实现分区
+4.Mongodb的文档字段可以是动态的，而Mysql新增字段则需要写sql进行添加
