@@ -64,3 +64,13 @@ client端会对某个znode建立一个watcher事件，当该znode发生编号时
 对于第一类，我们将zookeeper上的一个znode看作是一把锁，通过createznode的方式来实现，所有客户端都去创建/distribute_lock
 节点。最终成功创建的那个客户端也即拥有了这把锁，用完删除掉自己创建的distribute_lock节点就释放出锁
 对于第二类，/distribute_lock已经存在，所有客户端在它下面创建临时顺序编号目录接待你和选举master一样编号最好的获取锁，用完删除，依次创建。
+
+
+### 锁创建
+create /test laogong // 创建永久节点 
+Copy to clipboardErrorCopied
+create -e /test laogong // 创建临时节点
+
+create -s /test // 创建顺序节点
+
+create -e -s /test // 创建临时顺序节点 ``

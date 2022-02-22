@@ -32,8 +32,8 @@ git status
 git diff
 git push
 git remote set-url origin https://github.com/Jacwo/one.git/
-git remote set-url origin https://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@github.com/Jacwo/one.git/
-git pull https://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@github.com/Jacwo/one.git/
+git remote set-url origin https://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@github.com/Jacwo/one.git/
+git pull https://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@github.com/Jacwo/one.git/
 
 
 
