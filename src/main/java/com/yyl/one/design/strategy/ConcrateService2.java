@@ -1,4 +1,4 @@
-package com.yyl.one.design.adapter;
+package com.yyl.one.design.strategy;
 
 /**
  * @Author:yangyuanliang
