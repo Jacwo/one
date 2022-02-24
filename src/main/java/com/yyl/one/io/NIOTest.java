@@ -3,11 +3,10 @@ package com.yyl.one.io;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.ByteBuffer;
+import java.nio.channels.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -43,7 +42,15 @@ public class NIOTest extends Thread {
 			e.printStackTrace();
 		}
 	}
+	public  void test() throws IOException {
+		SocketChannel sc = SocketChannel.open();
+		sc.configureBlocking(false);
+		sc.connect(new InetSocketAddress("localhost",8888));
+		while (!sc.finishConnect()){
 
+		}
+		sc.write(ByteBuffer.wrap("hello".getBytes(StandardCharsets.UTF_8)));
+	}
 	private void sayHelloWorld(ServerSocketChannel server) throws IOException {
 		try (SocketChannel client = server.accept();) {
 			client.write(Charset.defaultCharset().encode("Hello world!"));
