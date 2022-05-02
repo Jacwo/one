@@ -309,4 +309,96 @@ jps、jstat、jinfo 、jmap、jstack
    jhat test.bin 会在本地启动一个web服务，端口是7000
 - jstack  pid
     用于查看虚拟机当前时候的线程快站，可以定位线程出现长时间停顿的原因，入线程见死锁、死循环、请求外部资源导致长时间等待都是导致
-    线程长时间停顿的原因、  
+    线程长时间停顿的原因、
+
+### 如何确认自己的JDK使用的哪个垃圾收集器？
+- 在可以用jvm参数,打印自己的jdk版本和收集器信息
+```
+   -XX:+PrintCommandLineFlags  -version
+```
+- 测试代码-指定参数启动
+```
+/**
+ * @author yangyuanliang
+ * @version 1.9
+ * @date 2022/4/25 20:34
+ */
+public class JvmGC {
+	public static void main(String[] args) {
+		System.out.println("test");
+	}
+}
+```
+- 输出信息
+```
+-XX:InitialHeapSize=134217728 -XX:MaxHeapSize=2147483648 -XX:+PrintCommandLineFlags -XX:+UseCompressedClassPointers -XX:+UseCompressedOops 
+-XX:+UseParallelGC  我的是java8版本，该参数代表使用的Paralle垃圾收集器
+java version "1.8.0_191"
+Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
+```
+### Paralle垃圾收集器介绍
+- 新生代使用 Parallel Scavenge收集器
+  使用的算法是基于标记-复制算法实现。收集器的目标是达到一个可控制的吞吐量，如何计算：吞吐量=用户代码运行时间/（代码运行时间+垃圾收集时间），重点关注一个参数吧 -XX:UserAdaptiveSizePolicy 这个参数激活后，不需要人工的指定新生代大小（-Xmn）、Eden与Surivivor区的比例，晋升老年代对象大小等参数了，虚拟机会根据当前系统运行情况收集性能监控信息动态调整这些参数以提供最合适的停顿时间合或最大的吞吐量。
+- 老年带使用的是Parallel Old收集器
+  是Parallel Scavenge的老年代版本，基于标记-整理算法实现，支持多线程并行收集。他的出现缓解了Parallel Scavenge的尴尬处境，因为Parallel Scavenge和别的优秀的老年代收集器不搭。出现后他俩搭配，才让吞吐量优先的收集器名副其实。
+
+### 模拟过程
+
+- 加参数定义最大堆空间和最小堆空间
+```
+	-Xms20m -Xmx20m 
+```
+- 加参数在堆溢出dump出当前的堆快照
+```
+-XX:+HeapDumpOnOutOfMemoryError
+```
+### 上代码
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author yangyuanliang
+ * @version 1.9
+ * @date 2022/4/24 21:49
+ */
+public class HeapOOM {
+	static class OOMObject{
+	}
+
+	public static void main(String[] args) {
+		List<HeapOOM> ooms = new ArrayList<>();
+		while(true) {
+			ooms.add(new HeapOOM());
+		}
+	}
+}
+```
+### 运行结果
+```
+/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/bin/java -Xms20m -Xmx20m -XX:+HeapDumpOnOutOfMemoryError -javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=53845:/Applications/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/packager.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/lib/tools.jar:/Users/liang/ruijie/jvm-test/out/production/jvm-test HeapOOM
+java.lang.OutOfMemoryError: Java heap space
+Dumping heap to java_pid76264.hprof ...
+Heap dump file created [27766960 bytes in 0.100 secs]
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at java.util.Arrays.copyOf(Arrays.java:3210)
+	at java.util.Arrays.copyOf(Arrays.java:3181)
+	at java.util.ArrayList.grow(ArrayList.java:265)
+	at java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:239)
+	at java.util.ArrayList.ensureCapacityInternal(ArrayList.java:231)
+	at java.util.ArrayList.add(ArrayList.java:462)
+	at HeapOOM.main(HeapOOM.java:17)
+
+Process finished with exit code 1
+```
+### 分析过程
+Java堆内存的OutOfMemoryError异常是实际应用中最常见的内存溢出异常情况。常规的处理方法，通过内存映像分析工具对Dump出来的堆快照进行分析。确认是内存泄露还是内存溢出（这个是基于导致OOM的对象是否是必要的来决定的）。
+### 内存泄露
+如果是内存泄漏，可进一步借助攻击分析查看对象到GC Roots的引用链，找到泄漏对象通过怎样的引用路径，与那些GC Roots相关联，才导致垃圾收集器无法回收他们，根据对象的类型信息以及他到GCRoots引用链的信息，一般可以准确的定位到这些对象创建的位置，进而找出内存泄漏代码的位置
+
+![可以看到OOM的对象](https://img-blog.csdnimg.cn/bde6476cfc3f420cb7048d9acc331b52.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5p2o5Zut5Lqu,size_20,color_FFFFFF,t_70,g_se,x_16)
+![继续分析GC Roots，可以查到oom位置](https://img-blog.csdnimg.cn/490c29d0638b440fbc9950e11fbdebc9.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5p2o5Zut5Lqu,size_20,color_FFFFFF,t_70,g_se,x_16)
+### 内存溢出
+内存溢出的话，那就应该检查Java虚拟机的堆参数，通过- Xmx与-Xms设置，与机器内存对比，看看是否还有空间可调整。在从代码简称是否存在某些对象生命周期过长，持有状态时间过长，存储结构设计不合理的情况，尽量减少程序运行期的内存消耗。
+
