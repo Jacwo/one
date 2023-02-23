@@ -106,6 +106,7 @@ public class ArrayListTest {
         map.put("5","5");
         map.put("4","4");
         map.put("6","6");
+        map.put(null,"222");
         map.forEach((k,v)->{
             System.out.println("map:"+k+"---"+v);
         });
@@ -130,7 +131,11 @@ public class ArrayListTest {
         });
 
 
-
+        /**
+         * key value不能为空
+         * 保证线程安全的方式:乐观锁+Sysnchronized cas
+         *
+         */
         Map<String,Object> map3 =new ConcurrentHashMap<>();
         map3.put("1","1");
         map3.put("2","2");
@@ -141,14 +146,26 @@ public class ArrayListTest {
         map3.forEach((k,v)->{
             System.out.println("map3"+k+"---"+v);
         });
-
+        /**
+         * 默认升序
+         */
         Map<String,Object> map4 =new TreeMap<>();
 
-
+        map4.put("1","1");
+        map4.put("3","2");
+        map4.put("2","3");
+        map4.put("5","5");
+        map4.put("4","4");
+        map4.put("6","6");
+        map4.forEach((k,v)->{
+            System.out.println("map4"+k+"---"+v);
+        });
+        /**
+         * 全局锁
+         */
         Map<String,Object> map5 =new Hashtable<>();
 
 
-        Map<String,Object> map6 =new WeakHashMap<>();
 
 
     }
