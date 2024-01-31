@@ -1,5 +1,7 @@
 package com.yyl.one.current;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import java.util.concurrent.*;
 
 /**
@@ -9,6 +11,9 @@ import java.util.concurrent.*;
  */
 public class BlockedQueueTest {
 	public static void main(String[] args) throws InterruptedException {
+
+		AnnotationConfigApplicationContext applicationContext =new AnnotationConfigApplicationContext();
+		
 		//有界队列
 		ArrayBlockingQueue<Runnable> arrayBlockingQueue = new ArrayBlockingQueue(1000);
 		//无界队列
@@ -21,5 +26,9 @@ public class BlockedQueueTest {
 
 			}
 		}
+
+
+
+
 	}
 }

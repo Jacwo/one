@@ -6,7 +6,8 @@ package com.yyl.one.array;
  * https://juejin.im/post/5dbfdc446fb9a020775fcfb1
  * 堆排序（堆是一种特殊的二叉树，完全二叉树和数组结构符合）
  * 1.堆排序用的是堆这种数据结构是一种选择排序时间复杂度为nlogn，不稳定
- * 2.堆排序是一个具有特性的完全二叉树每个节点的值大于等于左右节点的值称为大顶堆，每个节点的值小于等于左右节点的值称为小顶堆
+ * 2.堆排序是一个具有特性的完全二叉树每个节点的值大于等于左右节点的值称为大顶堆，
+ * 每个节点的值小于等于左右节点的值称为小顶堆
  * 构建堆，调整堆，每次确定一个最大的保存队尾
  */
 public class HeapSortTest {
@@ -16,15 +17,11 @@ public class HeapSortTest {
             int left=2*curr+1;
             int right=2*curr+2;
             int max=curr;
-            if(left<size){
-                if(arr[max]<arr[left]){
-                    max=left;
-                }
+            if(left<size && arr[max]<arr[left]){
+                max=left;
             }
-            if(right<size){
-                if(arr[max]<arr[right]){
-                    max=right;
-                }
+            if(right<size && arr[max]<arr[right]){
+                max=right;
             }
             if(max!=curr){
                 int temp=arr[curr];

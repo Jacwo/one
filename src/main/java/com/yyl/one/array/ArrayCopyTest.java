@@ -19,7 +19,6 @@ public class ArrayCopyTest {
         // source arr start
         //dest arr
         //dest arr start
-
         //copy sum
         System.arraycopy(array1,1,array2,2,3);
         for (int i = 0; i < array2.length; i++) {
