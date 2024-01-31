@@ -33,8 +33,8 @@ git diff
 git push
 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
 git remote set-url origin https://github.com/Jacwo/one.git/
-git remote set-url origin https://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@github.com/Jacwo/one.git/
-git pull https://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@github.com/Jacwo/one.git/
+git remote set-url origin https://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@github.com/Jacwo/one.git/
+git pull https://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@github.com/Jacwo/one.git/
 
 
 
