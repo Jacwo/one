@@ -6,7 +6,7 @@ package com.yyl.one.leetcode;
  *
  */
 public class buildTree1 {
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -30,5 +30,16 @@ public class buildTree1 {
         root.left = buildTree(preorder, idx + 1, inorder, i - 1, start);
         root.right = buildTree(preorder, idx + i - start + 1, inorder, end, i+1);
         return root;
+    }
+
+    public static void main(String[] args) {
+        long currentTimeMillis = System.currentTimeMillis();
+        System.out.println(currentTimeMillis);
+        String s = String.valueOf(currentTimeMillis);
+        String substring = s.substring(s.length() - 1);
+        System.out.println(substring);
+        Long aLong = Long.valueOf(substring);
+        long l = 0 % 1;
+        System.out.println(l);
     }
 }

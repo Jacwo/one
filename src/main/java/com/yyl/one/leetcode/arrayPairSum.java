@@ -1,6 +1,7 @@
 package com.yyl.one.leetcode;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by yyl on 2020/12/07
@@ -15,6 +16,7 @@ import java.util.Arrays;
 public class arrayPairSum {
     public int arrayPairSum(int[] nums) {
         //数组排序
+        new HashMap<>();
         Arrays.sort(nums);
         int sum = 0;
         for(int i=0; i<nums.length; i+=2){
