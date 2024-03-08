@@ -23,7 +23,7 @@ import java.util.List;
 public class findDisappearedNumbers {
     public static List<Integer> findDisappearedNumbers(int[] nums) {
         List<Integer> res = new ArrayList<>();
-        //数组排序
+        //数组排序.dis用户消除错位。
         Arrays.sort(nums);
         int dis = 0;
         for(int i=0; i<nums.length; i++){

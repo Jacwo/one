@@ -38,10 +38,10 @@ public class HashTest {
 	}
 
 	public static void main(String[] args) {
-       /* String a="1234";
+        String a="1234";
         String b="4328";
         boolean b1 = chkTransform(a, 4, b, 4);
-        System.out.println(b1);*/
+        System.out.println(b1);
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("1", null);

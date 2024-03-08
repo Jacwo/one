@@ -27,7 +27,7 @@ public class canJump {
 	}
 
 	public static void main(String[] args) {
-		int num[] = {2, 1, 0, 0, 4};
+		int num[] = {2, 1, 1, 0, 4};
 		System.out.println(canJump(num));
 
 	}
