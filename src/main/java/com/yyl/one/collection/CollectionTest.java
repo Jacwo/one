@@ -74,7 +74,7 @@ public class CollectionTest {
         map.put("3","3");
 
         map.put("4","5");
-
+        Collections.synchronizedList(list);
     }
 
 }
