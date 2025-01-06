@@ -24,8 +24,10 @@ public class ConcurrentListQueueTest extends  AbstractQueuedSynchronizer{
 		map.put("2","3");
 		map.put("1","2");
 		map.put("4","3");
+
 		System.out.println(map);
-		map.get("2");
+		map.get("1");
+		System.out.println(map);
 
 
 		Set set=new HashSet<>();
