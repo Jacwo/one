@@ -20,14 +20,19 @@ public class buildTree1 {
         if (idx >= preorder.length || start > end) {
             return null;
         }
+        //前序遍历确定根节点
         TreeNode root = new TreeNode(preorder[idx]);
         int i;
+        //在中序遍历中找到根节点,确定左右子树
         for (i = end; i >= start; i--) {
+            //找到根节点
             if (preorder[idx] == inorder[i]) {
                 break;
             }
         }
+        //递归构建左子树
         root.left = buildTree(preorder, idx + 1, inorder, i - 1, start);
+        //递归构建右子树
         root.right = buildTree(preorder, idx + i - start + 1, inorder, end, i+1);
         return root;
     }

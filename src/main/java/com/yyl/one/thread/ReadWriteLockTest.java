@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * author:yangyuanliang Date:2019-12-10 Time:11:55
  **/
-public class ReadWriteLockTest {
+public class  ReadWriteLockTest {
     public static void main(String[] args) {
         HashMap map=new HashMap(2);
         map.put(2,2);

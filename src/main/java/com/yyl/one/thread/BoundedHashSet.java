@@ -56,11 +56,12 @@ public class BoundedHashSet<T> {
             }).start();
         }
 
-        /*new Thread(() -> {
-            boundedHashSet.remove("222");
+        new Thread(() -> {
+            boundedHashSet.remove("mmm1");
             System.out.println("移除");
 
-        }).start();*/
+
+        }).start();
 
 
     }

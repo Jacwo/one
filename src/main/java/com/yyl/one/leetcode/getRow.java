@@ -21,7 +21,8 @@ public class getRow {
         for(int i=1; i<rowIndex; i++){
             res.clear();
             res.add(1);
-            for(int j=0; j<tmp.size()-1; j++){
+            for(int j=0; j<
+                    tmp.size()-1; j++){
                 res.add(tmp.get(j) + tmp.get(j+1));
             }
             res.add(1);
