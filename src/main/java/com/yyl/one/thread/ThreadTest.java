@@ -25,8 +25,8 @@ public class ThreadTest {
                 @Override
                 public String call() throws Exception {
                     // TODO Auto-generated method stub
-                    //int cpuNums = Runtime.getRuntime().availableProcessors();
-                    //System.out.println(cpuNums);
+                    int cpuNums = Runtime.getRuntime().availableProcessors();
+                    System.out.println(cpuNums);
                     for (int i = 999999; i > 0; i--) ;
                     System.out.println("call()方法被自动调用,干活！！！             " + Thread.currentThread().getName());
                     //Thread.sleep(1000);

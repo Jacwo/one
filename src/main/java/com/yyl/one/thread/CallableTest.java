@@ -1,5 +1,7 @@
 package com.yyl.one.thread;
 
+import lombok.SneakyThrows;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
@@ -13,10 +15,11 @@ public class CallableTest<Integer> implements Callable<Integer> {
         return null;
     }
 
+    @SneakyThrows
     public static void main(String[] args) {
         FutureTask futureTask=new FutureTask(new CallableTest());
-        Thread thread= new Thread(futureTask,"thread-0-");
+        Thread thread= new Thread(futureTask,"thread-");
         thread.start();
-       // futureTask.get();
+        System.out.println(futureTask.get());
     }
 }

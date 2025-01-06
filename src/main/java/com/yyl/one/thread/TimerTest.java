@@ -12,8 +12,10 @@ public class TimerTest {
     public static void main(String[] args) throws InterruptedException {
         Timer timer=new Timer();
         timer.schedule(new Throwtask(),1);
-       /* SECONDS.sleep(1);
-        timer.schedule(new Throwtask(),1);*/
+        SECONDS.sleep(1);
+        timer.schedule(new Throwtask(),1);
+        timer.schedule(new Throwtask(),1);
+
 
     }
     static class Throwtask extends TimerTask{
