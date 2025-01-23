@@ -31,4 +31,11 @@ public class MyBookFacadeProxyCglib implements MethodInterceptor{
         System.out.println("after run!");
         return null;
     }
+
+
+    public static void main(String[] args) {
+        MyBookFacadeProxyCglib myBookFacadeProxyCglib =new MyBookFacadeProxyCglib();
+        BookFacadeImpl instance = (BookFacadeImpl) myBookFacadeProxyCglib.getInstance(new BookFacadeImpl());
+        instance.addBook();
+    }
 }

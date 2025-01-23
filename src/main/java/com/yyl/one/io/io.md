@@ -67,7 +67,7 @@ public static void readFileContent(String filePath){
     }
     bufferedReader.close();
 }
-```
+```     
 编码就是把字符转换为字节，而解码是把字节重新组合成字符
 ### JAVA序列化
     1.序列化是将Java对象转换为字节序列的过程，而Java反序列化是指把字节序列恢复为Java对象的过程

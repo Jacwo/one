@@ -439,7 +439,8 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
          //根据hash值判断在数组中的位置,如果当前没有值直接new节点存储
        
         if ((p = tab[i = (n - 1) & hash]) == null)
-             //此处是hashMap线程不安全的点，假如线程A执行的此处，让出cpu，线程b也出现了hash冲突，进入此处，完成了节点的新增，此时回到A之后，就会吧B线程的节点覆盖
+             //此处是hashMap线程不安全的点，假如线程A执行的此处，让出cpu，线程b也出现了hash冲突，进入此处，完成了节点的新增，
+             //此时回到A之后，就会吧B线程的节点覆盖
             tab[i] = newNode(hash, key, value, null);
         else {
             //如果寻找的table数组有值，则判断key有没有存在
@@ -786,7 +787,8 @@ public boolean add(E e){
 ### linkedHashSet和LinkedHashMap
 LinkedHashMap
 1.LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。
-2.HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序，那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。
+2.HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序，那put和get操作已存在的Entry时，
+都会把Entry移动到双向链表的表尾(其实是先删除再插入)。
 3.LinkedHashMap存取数据，还是跟HashMap一样使用的Entry[]的方式，双向链表只是为了保证顺序。
 4.LinkedHashMap是线程不安全的。
 linkedHashSet

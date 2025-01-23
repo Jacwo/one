@@ -304,7 +304,10 @@ jps、jstat、jinfo 、jmap、jstack
         yangyuanliangdeMacBook-Pro% jinfo -flag NewSize 21734
             -XX:NewSize=89128960
 - jmap 用于生成堆内存的快照，一般是heapdump或者dump文件，如果不适用jmap命令可以使用-XX:+HeapDumpOnOutOfMemoryError
-  当虚拟机发生内存溢出的时候可以产生快照，使用kill -3 pid也会 
+  当虚拟机发生内存溢出的时候可以产生快照，使用kill -3 pid也会
+  jmap -dump:format=b,file=test.hprof 3772
+  jmap -dump:live,format=b,file=test.hprof 3772 ## 如果只dump heap中的存活对象，则加上选项-live
+
 - jhat 分析jmap dump出来的文件
    jhat test.bin 会在本地启动一个web服务，端口是7000
 - jstack  pid
@@ -393,12 +396,15 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 Process finished with exit code 1
 ```
 ### 分析过程
-Java堆内存的OutOfMemoryError异常是实际应用中最常见的内存溢出异常情况。常规的处理方法，通过内存映像分析工具对Dump出来的堆快照进行分析。确认是内存泄露还是内存溢出（这个是基于导致OOM的对象是否是必要的来决定的）。
+Java堆内存的OutOfMemoryError异常是实际应用中最常见的内存溢出异常情况。常规的处理方法，通过内存映像分析工具对Dump出来的堆快照进行分析。
+确认是内存泄露还是内存溢出（这个是基于导致OOM的对象是否是必要的来决定的）。
 ### 内存泄露
-如果是内存泄漏，可进一步借助攻击分析查看对象到GC Roots的引用链，找到泄漏对象通过怎样的引用路径，与那些GC Roots相关联，才导致垃圾收集器无法回收他们，根据对象的类型信息以及他到GCRoots引用链的信息，一般可以准确的定位到这些对象创建的位置，进而找出内存泄漏代码的位置
+如果是内存泄漏，可进一步借助攻击分析查看对象到GC Roots的引用链，找到泄漏对象通过怎样的引用路径，与那些GC Roots相关联，
+才导致垃圾收集器无法回收他们，根据对象的类型信息以及他到GCRoots引用链的信息，一般可以准确的定位到这些对象创建的位置，进而找出内存泄漏代码的位置
 
 ![可以看到OOM的对象](https://img-blog.csdnimg.cn/bde6476cfc3f420cb7048d9acc331b52.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5p2o5Zut5Lqu,size_20,color_FFFFFF,t_70,g_se,x_16)
 ![继续分析GC Roots，可以查到oom位置](https://img-blog.csdnimg.cn/490c29d0638b440fbc9950e11fbdebc9.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5p2o5Zut5Lqu,size_20,color_FFFFFF,t_70,g_se,x_16)
 ### 内存溢出
-内存溢出的话，那就应该检查Java虚拟机的堆参数，通过- Xmx与-Xms设置，与机器内存对比，看看是否还有空间可调整。在从代码简称是否存在某些对象生命周期过长，持有状态时间过长，存储结构设计不合理的情况，尽量减少程序运行期的内存消耗。
+内存溢出的话，那就应该检查Java虚拟机的堆参数，通过- Xmx与-Xms设置，与机器内存对比，
+看看是否还有空间可调整。在从代码简称是否存在某些对象生命周期过长，持有状态时间过长，存储结构设计不合理的情况，尽量减少程序运行期的内存消耗。
 

@@ -13,7 +13,7 @@ public class TreeMapTest {
         map.put("2","2");
         map.put("3","3");
         map.put("4","4");
-        map.put(null,null);
+     //   map.put(null,null);
         for(Map.Entry entry:map.entrySet()){
             System.out.println(entry.getValue());
         }
