@@ -46,7 +46,6 @@ public class ConditionBoundedBuffer<T> {
                 head=0;
             }
             --count;
-            notFull.signal();
             return t;
         }finally {
             lock.unlock();

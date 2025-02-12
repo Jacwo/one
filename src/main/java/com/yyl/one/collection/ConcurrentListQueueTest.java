@@ -41,7 +41,7 @@ public class ConcurrentListQueueTest extends  AbstractQueuedSynchronizer{
 		set1.add("1");
 		set1.add("2");
 		System.out.println(set1);
-
+		ConcurrentHashMap concurrentHashMap=new ConcurrentHashMap();
 
 	}
 }

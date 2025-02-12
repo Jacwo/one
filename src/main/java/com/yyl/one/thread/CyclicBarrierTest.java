@@ -32,6 +32,8 @@ public class CyclicBarrierTest {
                 }
             });
         }
+
+        System.out.println("33333");
     }
 
     private static void reace(int threadNum) throws InterruptedException, BrokenBarrierException {

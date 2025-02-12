@@ -19,19 +19,24 @@ public class ThreadController {
         }
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
-        HttpSession session = request.getSession(false);
+       /* HttpSession session = request.getSession(false);
         Object aaa = session.getAttribute("aaa");
-        System.out.println(aaa);
+        System.out.println(aaa);*/
 
     }
 
     @GetMapping("/test")
     @ResponseBody
-    public void test(){
+    public String test(){
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession(true);
         session.setAttribute("aaa","bbbb");
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         Thread thread =new Thread(new Runnable() {
             @Override
             public void run() {
@@ -43,6 +48,8 @@ public class ThreadController {
         thread.start();
 
         System.out.println("end");
+
+        return "ok";
     }
 
 

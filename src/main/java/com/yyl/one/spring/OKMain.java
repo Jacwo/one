@@ -14,7 +14,7 @@ public class OKMain {
         log.info("Init application context");
         // create and configure beans
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-                "com.ruijie.spring");
+                "com.yyl.one.spring");
 
         // retrieve configured instance
         TestSpring spring = (TestSpring) context.getBean("testSpring");

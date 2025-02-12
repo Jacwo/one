@@ -49,6 +49,7 @@ public class SemaphoreTest<T> {
         semaphoreTest.add("22221");
         semaphoreTest.add("22223");
         semaphoreTest.add("22224");
+        System.out.println("22222");
         semaphoreTest.add("22225");
         semaphoreTest.add("2222");
     }

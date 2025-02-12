@@ -53,6 +53,7 @@ xml--------Resource--------BeanDefinition---------BeanFactory
         spring根据不同的scope创建bean实例。
 
 - 生命周期
+https://www.cnblogs.com/zhangzhixi/p/16921096.html
 在传统的java应用中bean的生命周期很简单，使用new进行bean的实例化，然后该bean就可以使用了，一旦该bean不再被使用则由java自动
 进行垃圾回收
 相比之前，spring容器中的bean的生命周期就相对复杂的多了，正确理解spring bean的生命周期非常重要。

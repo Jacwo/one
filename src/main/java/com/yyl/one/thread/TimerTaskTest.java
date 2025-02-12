@@ -29,6 +29,7 @@ public class TimerTaskTest{
         }
         long start=System.nanoTime();
         startGate.countDown();
+        System.out.println("33");
         long end=System.nanoTime();
         return end-start;
     }

@@ -1,5 +1,6 @@
 package com.yyl.one.thread;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,11 +13,11 @@ import java.util.concurrent.Executors;
  * author:yangyuanliang Date:2019-11-13 Time:17:41
  **/
 public class ThreadLocalTest {
-    public static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final ThreadLocal<SimpleDateFormat> sdf2 = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("yyyy-MM-dd");
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         }
     };
     public static void main(String[] args) throws ClassNotFoundException {
@@ -39,7 +40,7 @@ public class ThreadLocalTest {
 
             }
         }).start();
-        /*List ids = null;
+       /* List ids = null;
         for (int i = 0; i <10 ; i++) {
             ids= Collections.singletonList(i);
         }
@@ -55,20 +56,32 @@ public class ThreadLocalTest {
         /*Integer []arr={1,2,3};
         List<Integer> integers = Arrays.asList(arr);
         System.out.println(integers);*/
-       /* for (int i=0;i<100;i++){
+    /*    for (int i=0;i<100;i++){
             new Thread(() -> {
-                String format = sdf.format(new Date());
-                System.out.println(format);
+                Date date = null;
+                try {
+                    date = sdf.parse("2023-01-01 12:00:00");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String formattedDate = sdf.format(date);
+
+                System.out.println(formattedDate);
             }).start();
+        }*/
+
+         ExecutorService executor = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 10; i++) {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    String formattedDate = sdf.format(new Date());
+
+                    System.out.println(formattedDate);
+                }
+            });
         }
 
-        ExecutorService executor = Executors.newCachedThreadPool();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                String format = sdf.format(new Date());
-                System.out.println(format);
-            }
-        });*/
     }
 }

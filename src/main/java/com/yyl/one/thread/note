@@ -104,4 +104,3 @@ SingleThreadPool
 CachedThreadPool
 无界的线程池，可以自动回收多余线程。线程可以无限创建
 ScheduledThreadPool
-
