@@ -1,0 +1,16 @@
+
+- IO多路复用
+- spring循环依赖
+- mvcc
+- hashMap
+- synchronized和lock
+- PriorityQueue
+- mysql 最左原则
+- rocketmq 零拷贝
+- rockermq 消息一致性
+- mysql 优化
+- cms和g1
+- mysql锁按粒度
+- 死锁
+- 动态代理
+- 

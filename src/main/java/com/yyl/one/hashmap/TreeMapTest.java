@@ -18,5 +18,11 @@ public class TreeMapTest {
             System.out.println(entry.getValue());
         }
 
+        TreeMap treeMap =new TreeMap();
+
+
+        LinkedList list =new LinkedList();
+        list.add(5,"");
+
     }
 }
