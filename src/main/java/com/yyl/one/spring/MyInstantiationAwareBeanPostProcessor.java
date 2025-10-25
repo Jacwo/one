@@ -29,10 +29,10 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
         return InstantiationAwareBeanPostProcessor.super.postProcessAfterInstantiation(bean, beanName);
     }
 
-    @Override
+  /*  @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
         log.info("execute InstantiationAwareBeanPostProcessor#postProcessProperties for {}", beanName);
         return InstantiationAwareBeanPostProcessor.super.postProcessPropertyValues(pvs,pds, bean, beanName);
-    }
+    }*/
 
 }

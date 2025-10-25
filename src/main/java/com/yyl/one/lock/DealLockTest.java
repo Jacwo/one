@@ -10,6 +10,27 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DealLockTest {
 	private static Object lockA =new Object();
 	private static Object lockB =new Object();
+
+	public synchronized static String test1() throws InterruptedException {
+		System.out.println("test1");
+		Thread.sleep(10000);
+		return "ok";
+	}
+
+
+	public synchronized static String test3() throws InterruptedException {
+		System.out.println("test3");
+		Thread.sleep(10000);
+		return "ok";
+	}
+
+
+
+
+	public synchronized String test2(){
+		System.out.println("test2");
+		return "ok";
+	}
 	public static void alock(){
 		synchronized (lockA){
 			try {
@@ -39,18 +60,28 @@ public class DealLockTest {
 
 
 	public static void main(String[] args) {
+		DealLockTest dealLockTest =new DealLockTest();
+
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				alock();
+				try {
+					DealLockTest.test1();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		thread.setName("my thread 1 ....");
-
 		Thread thread2 = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				block();
+				try {
+					DealLockTest.test3();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
 
 			}
 		});

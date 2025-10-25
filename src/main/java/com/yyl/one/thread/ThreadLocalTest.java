@@ -40,6 +40,7 @@ public class ThreadLocalTest {
 
             }
         }).start();
+       // InheritableThreadLocal
        /* List ids = null;
         for (int i = 0; i <10 ; i++) {
             ids= Collections.singletonList(i);

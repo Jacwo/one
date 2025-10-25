@@ -1,7 +1,6 @@
 package com.yyl.one.base;
 
 import org.objectweb.asm.ClassReader;
-import sun.misc.ProxyGenerator;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,13 +38,13 @@ public class TestProxy {
     }
     //JDK动态代理生成的字节码文件持久化
     public static void jdkToFile(BookFacadeImpl obj) throws IOException {
-        Class clazz = obj.getClass();
+       /* Class clazz = obj.getClass();
         String className = clazz.getName();
         byte[] classFile = ProxyGenerator.generateProxyClass(className, BookFacadeImpl.class.getInterfaces());
         FileOutputStream fos = new FileOutputStream(outputFile);
         // ClassReader cr = new ClassReader(className);
         // byte[] bits = cr.b;
-        fos.write(classFile);
+        fos.write(classFile);*/
     }
     //另一种JDK字节码文件持久化方法
     public static void toFile(BookFacadeImpl obj) throws IOException {
