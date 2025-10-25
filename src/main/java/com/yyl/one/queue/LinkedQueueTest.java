@@ -1,5 +1,8 @@
 package com.yyl.one.queue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LinkedQueueTest {
     Node front;
     Node tail;
@@ -31,6 +34,11 @@ public class LinkedQueueTest {
             this.next=node;
             this.data=data;
         }
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(5/2);
     }
 
 }

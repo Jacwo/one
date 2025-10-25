@@ -17,6 +17,7 @@ public class Test {
         BigDecimal bigDecimal=new BigDecimal( 3.184545445);
 
 
-        System.out.println( bigDecimal.setScale(8,BigDecimal.ROUND_HALF_DOWN).setScale(2,BigDecimal.ROUND_DOWN));
+        System.out.println( bigDecimal.setScale(8,BigDecimal.ROUND_HALF_DOWN).
+                setScale(2,BigDecimal.ROUND_DOWN));
     }
 }

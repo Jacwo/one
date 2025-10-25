@@ -2,12 +2,12 @@ package com.yyl.one.thread;
 
 public class SynchronizedTest {
 
-    public synchronized static void add() throws InterruptedException {
+    public  static synchronized void add() throws InterruptedException {
         System.out.println("add");
         Thread.sleep(100000);
     }
 
-    public synchronized static void add2(){
+    public  static synchronized void add2(){
         System.out.println("add2");
     }
 

@@ -19,8 +19,8 @@ public class Test {
         try {
             URL url = new URL(processUrl);
             HttpURLConnection httpConn = (HttpURLConnection)url.openConnection();
-            //httpConn.setRequestProperty("ksname","周瑞鹏");
-            //httpConn.setRequestProperty("idnumber","412724200008086931");
+            httpConn.setRequestProperty("ksname","周瑞鹏");
+            httpConn.setRequestProperty("idnumber","412724200008086931");
 
             httpConn.setRequestProperty("Content-Length", "95");
             httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-88");

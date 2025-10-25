@@ -9,7 +9,7 @@ public ReentrantLock(boolean fair){
     sync=fair ? new FairSync():new NofairSync();
 }
 
-lock.lock
+        lock.lock
         final void lock() {
             acquire(1);
         }

@@ -46,7 +46,7 @@ public class MaxPre {
     }
 
     public static void main(String[] args) {
-        String[] strs = { "a", "c2ar", "cat" };
+        String[] strs = { "ca", "c2ar", "cat" };
         // String[] strs = { "customer", "car", null };//空串
         // String[] strs = {};//空串
         // String[] strs = null;//空串

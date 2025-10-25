@@ -34,10 +34,11 @@ Process finished with exit code 0
 - postProcessAfterInstantiation bean实例化之后执行，暂未发现使用
 - postProcessPropertyValues  实例化完成成员变量的处理，spring使用这个完成Autowired注解的出来
 - setBeanName  BeanNameAware
-- setBeanFactory   BeanFactoryAware
+- setBeanFactory   BeanFactoryAware            
 - setApplicationContext  ApplicationContextAware
 - postProcessBeforeInitialization  bean 初始化之前 spring使用这个处理一些注解比如ConfigurationProperties
 - afterPropertiesSet  InitializingBean
 - doInit
 - postProcessAfterInitialization bean 初始化之后，可以对一些bean加上代理
 - doDestroy
+  https://www.cnblogs.com/eiffelzero/p/18608702

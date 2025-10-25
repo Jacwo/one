@@ -1,6 +1,7 @@
 package com.yyl.one.thread;
 
 import java.util.concurrent.*;
+import java.util.function.Supplier;
 
 public class CompletableFeatureTest {
     /**
@@ -13,7 +14,19 @@ public class CompletableFeatureTest {
     public static void main(String[] args) {
         CompletableFuture<Integer> completableFuture = new CompletableFuture<>(); // 创建一个CompletableFuture对象
 
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "Hello");
+        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> "面试鸭");
+
+        CompletableFuture<String> combinedFuture = future1.thenCombine(future2, (result1, result2) -> result1 + " " + result2);
+
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello")
+                .thenCompose(result -> CompletableFuture.supplyAsync(() -> result + " 面试鸭"));
+
+
+
         // 创建并启动一个守护线程，该线程会无限循环打印消息
+
+
         Thread thread = new Thread(() -> {
             while (true) {
                 try {

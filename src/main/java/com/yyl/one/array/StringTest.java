@@ -13,7 +13,7 @@ public class StringTest {
         System.out.println(test1.equals(test3));
         System.out.println(test1==test2);
         boolean equals = s.equals(a);
-       // System.out.println(equals);
+        System.out.println(equals);
     }
 
 }

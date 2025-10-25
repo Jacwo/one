@@ -1,10 +1,13 @@
+/*
 package com.yyl.one;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.servlet.*;
-import javax.servlet.http.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -14,13 +17,16 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
+*/
 /**
  * @Author:yangyuanliang
  * @Date:2020/6/3 10:40
  * @Description:
- */
+ *//*
+
 public class Groovy {
-    /**
+    */
+/**
      * @desc 执行groovy脚本(需要指定方法名)
      * @param script
      *            要执行的脚本 通过字符串传入，应用场景 如从数据库中读取出来的脚本等
@@ -29,7 +35,8 @@ public class Groovy {
      * @param params
      *            执行grovvy需要传入的参数
      * @return
-     */
+     *//*
+
     public Object runGroovyScript(String script, String funName, Object[] params) {
         try {
             ScriptEngineManager factory = new ScriptEngineManager();
@@ -178,10 +185,6 @@ public class Groovy {
                 return false;
             }
 
-            @Override
-            public boolean isRequestedSessionIdFromUrl() {
-                return false;
-            }
 
             @Override
             public boolean authenticate(HttpServletResponse httpServletResponse) throws IOException, ServletException {
@@ -339,11 +342,6 @@ public class Groovy {
             }
 
             @Override
-            public String getRealPath(String s) {
-                return null;
-            }
-
-            @Override
             public int getRemotePort() {
                 return 0;
             }
@@ -397,6 +395,21 @@ public class Groovy {
             public DispatcherType getDispatcherType() {
                 return null;
             }
+
+            @Override
+            public String getRequestId() {
+                return null;
+            }
+
+            @Override
+            public String getProtocolRequestId() {
+                return null;
+            }
+
+            @Override
+            public ServletConnection getServletConnection() {
+                return null;
+            }
         };
         String script = " def isAutoRedirect(request,pageModelDtos,name){if(request.getHeader(\\\"User-Agent\\\").contains(\\\"weishao\\\")){pageModelDtos.add(name);} return pageModelDtos;}";
         Object res1 = groovy.runGroovyScript(script, "isAutoRedirect", new Object[] { request });
@@ -404,3 +417,4 @@ public class Groovy {
     }
 
 }
+*/

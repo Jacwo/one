@@ -58,7 +58,6 @@
 
 6.存储引擎（MyISAM、InnoDB）
     mysql5.5之后默认存储引擎是InnoDB
-    
     6.1 MyISAM
         特性：
             并发性和锁级别(对于读写混合操作不好，为表级锁，写入和读互斥)
@@ -109,7 +108,7 @@
     7.2 B Tree原理
         B-Tree
 ![alt](https://frank-lam.github.io/fullstack-tutorial/assets/06976908-98ab-46e9-a632-f0c2760ec46c.png)
-    
+    ![img.png](img.png)
      定义一条数据记录为一个二元组，B-Tree满足下列数据结构
         1.所有叶节点具有相同的深度，也就是说B-Tree是平衡的
         2.一个节点中的key从左到右非递减排列
@@ -118,12 +117,12 @@
         
         B+Tree
 ![alt](https://frank-lam.github.io/fullstack-tutorial/assets/061c88c1-572f-424f-b580-9cbce903a3fe.png)
-        
+        ![img_1.png](img_1.png)
         每个节点的指针上限为2d而不是2d+1
         内节点不存储data，只存储key
         叶子节点不存储指针
 ![alt](https://frank-lam.github.io/fullstack-tutorial/assets/061c88c1-572f-424f-b580-9cbce903a3fe.png)
-        
+        ![img_2.png](img_2.png)
         一般在数据库系统或文件系统中使用的B+Tree结构都在经典B+Tree基础上进行优化，在叶子节点增加了顺序访问指针。这个优化的
         目的是为了提高区间访问性能
         BTree索引优势
