@@ -15,7 +15,6 @@ public class PermutationTest {
 	public static void main(String[] args) {
 		String ss = "abc";
 		permutation(ss.toCharArray(),0);
-
 		LinkedList<Character> list=new LinkedList<>();
 		backtrace(list,ss.toCharArray());
 		System.out.println(res);
@@ -33,8 +32,6 @@ public class PermutationTest {
 				chars[i] = tmp;
 				// 处理下一个位置
 				permutation(chars, begin + 1);
-
-
 				tmp = chars[begin];
 				chars[begin] = chars[i];
 				chars[i] = tmp;
